@@ -1252,6 +1252,10 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             document.getElementById('admin-login-form').classList.remove('hidden');
             document.getElementById('admin-panel').classList.add('hidden');
             document.getElementById('login-error').classList.add('hidden');
+            
+            // Clear form fields
+            document.getElementById('admin-username').value = '';
+            document.getElementById('admin-password').value = '';
         }
 
         function showAdminPanel() {
@@ -1289,11 +1293,15 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
                 sessionStorage.removeItem('adminLoggedIn');
                 sessionStorage.removeItem('adminLoginTime');
                 
-                showAdminLogin();
-                showNotification('info', 'Logout Berhasil', 'Anda telah keluar dari panel administrator');
+                // Hide admin panel and show login form
+                document.getElementById('admin-panel').classList.add('hidden');
+                document.getElementById('admin-login-form').classList.remove('hidden');
                 
-                // Clear form
+                // Clear login form
                 document.getElementById('form-login-admin').reset();
+                document.getElementById('login-error').classList.add('hidden');
+                
+                showNotification('info', 'Logout Berhasil', 'Anda telah keluar dari panel administrator');
             }
         }
 
@@ -3067,5 +3075,5 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             overlay.classList.add('hidden');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a7567e1792e77a',t:'MTc1NzA5MjIwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a75a5b12056d09',t:'MTc1NzA5MjM2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
