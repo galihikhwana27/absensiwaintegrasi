@@ -1,0 +1,3071 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Online - SMP Negeri 3 Lempuing Jaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .glass-effect { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-blue-800 to-blue-900 text-white transform -translate-x-full transition-transform duration-300 z-50 shadow-2xl">
+        <div class="p-6 border-b border-blue-700">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                    <i class="fas fa-school text-blue-800 text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-sm">SMP Negeri 3</h2>
+                    <p class="text-xs text-blue-200">Lempuing Jaya</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="mt-6">
+            <a href="#" onclick="showPage('home')" class="nav-item flex items-center px-6 py-3 hover:bg-blue-700 transition-colors">
+                <i class="fas fa-home w-5"></i>
+                <span class="ml-3">Beranda</span>
+            </a>
+            <a href="#" onclick="showPage('absen-guru')" class="nav-item flex items-center px-6 py-3 hover:bg-blue-700 transition-colors">
+                <i class="fas fa-user-tie w-5"></i>
+                <span class="ml-3">Absen Guru</span>
+            </a>
+            <a href="#" onclick="showPage('absen-siswa')" class="nav-item flex items-center px-6 py-3 hover:bg-blue-700 transition-colors">
+                <i class="fas fa-user-graduate w-5"></i>
+                <span class="ml-3">Absen Siswa</span>
+            </a>
+            <a href="#" onclick="showPage('rekap')" class="nav-item flex items-center px-6 py-3 hover:bg-blue-700 transition-colors">
+                <i class="fas fa-chart-bar w-5"></i>
+                <span class="ml-3">Rekap Absen</span>
+            </a>
+            <a href="#" onclick="showPage('admin')" class="nav-item flex items-center px-6 py-3 hover:bg-blue-700 transition-colors">
+                <i class="fas fa-cog w-5"></i>
+                <span class="ml-3">Login Admin</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="toggleSidebar()"></div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="ml-0 transition-all duration-300">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg p-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleSidebar()" class="text-white hover:text-blue-200 transition-colors">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-school text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="text-white">
+                        <h1 class="font-bold text-lg">SMP Negeri 3 Lempuing Jaya</h1>
+                        <p class="text-sm text-blue-200">Sistem Absensi Online</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right text-white">
+                    <div id="current-time" class="font-semibold"></div>
+                    <div id="current-date" class="text-sm text-blue-200"></div>
+                </div>
+                <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <i class="fas fa-user text-white"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="p-4">
+            <!-- Home Page -->
+            <div id="page-home" class="page-content fade-in">
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                    <button onclick="showPage('home')" class="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-home text-sm mb-1"></i>
+                        <span class="font-medium">Beranda</span>
+                    </button>
+                    <button onclick="showPage('absen-guru')" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-user-tie text-sm mb-1"></i>
+                        <span class="font-medium">Absen Guru</span>
+                    </button>
+                    <button onclick="showPage('absen-siswa')" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-user-graduate text-sm mb-1"></i>
+                        <span class="font-medium">Absen Siswa</span>
+                    </button>
+                    <button onclick="showPage('rekap')" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-chart-bar text-sm mb-1"></i>
+                        <span class="font-medium">Rekap Absen</span>
+                    </button>
+                    <button onclick="showPage('admin')" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-cog text-sm mb-1"></i>
+                        <span class="font-medium">Admin</span>
+                    </button>
+                    <button onclick="toggleSidebar()" class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-bars text-sm mb-1"></i>
+                        <span class="font-medium">Menu</span>
+                    </button>
+                </div>
+
+                <!-- School Identity Card -->
+                <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+                    <div class="text-center mb-3">
+                        <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-school text-white text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="text-center space-y-1">
+                        <h2 class="text-lg font-bold text-gray-800">SMP Negeri 3 Lempuing Jaya</h2>
+                        <p class="text-sm text-gray-600">Jl. Pendidikan No. 123, Lempuing Jaya</p>
+                        <p class="text-sm text-gray-600">NPSN: 10123456</p>
+                        <p class="text-sm text-gray-600">Kepala Sekolah: Drs. H. Ahmad Suryadi, M.Pd</p>
+                        <p class="text-sm text-gray-600">Telp: (0711) 123-4567</p>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-white rounded-xl shadow-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm">Guru Hadir Hari Ini</p>
+                                <p class="text-2xl font-bold text-green-600">0</p>
+                            </div>
+                            <i class="fas fa-user-check text-green-500 text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm">Siswa Hadir Hari Ini</p>
+                                <p class="text-2xl font-bold text-blue-600">0</p>
+                            </div>
+                            <i class="fas fa-users text-blue-500 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Absen Guru Page -->
+            <div id="page-absen-guru" class="page-content hidden">
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                    <button onclick="showPage('home')" class="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-home text-sm mb-1"></i>
+                        <span class="font-medium">Beranda</span>
+                    </button>
+                    <button onclick="showPage('absen-guru')" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-user-tie text-sm mb-1"></i>
+                        <span class="font-medium">Absen Guru</span>
+                    </button>
+                    <button onclick="showPage('absen-siswa')" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-user-graduate text-sm mb-1"></i>
+                        <span class="font-medium">Absen Siswa</span>
+                    </button>
+                    <button onclick="showPage('rekap')" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-chart-bar text-sm mb-1"></i>
+                        <span class="font-medium">Rekap Absen</span>
+                    </button>
+                    <button onclick="showPage('admin')" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-cog text-sm mb-1"></i>
+                        <span class="font-medium">Admin</span>
+                    </button>
+                    <button onclick="toggleSidebar()" class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-bars text-sm mb-1"></i>
+                        <span class="font-medium">Menu</span>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-4">
+                    <form id="form-absen-guru">
+                        <div class="mb-3">
+                            <label class="block text-gray-700 font-semibold mb-1">Nama Guru</label>
+                            <select id="dropdown-guru-absen" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="checkGuruAttendanceStatus()">
+                                <option value="">Pilih Nama Guru</option>
+                            </select>
+                        </div>
+
+                        <!-- Attendance Status Display -->
+                        <div id="guru-attendance-status" class="hidden mb-3 p-3 rounded-lg border">
+                            <h4 class="font-semibold text-gray-700 mb-2">Status Absensi Hari Ini</h4>
+                            <div id="attendance-info" class="space-y-1 text-sm">
+                                <!-- Status will be populated here -->
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-gray-700 font-semibold mb-1">Status Kehadiran</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center p-2.5 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="status" value="hadir" class="mr-2">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    Hadir
+                                </label>
+                                <label class="flex items-center p-2.5 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="status" value="izin" class="mr-2">
+                                    <i class="fas fa-exclamation-circle text-yellow-500 mr-2"></i>
+                                    Izin
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-gray-700 font-semibold mb-1">Jenis Absensi</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center p-2.5 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="jenis" value="datang" class="mr-2">
+                                    <i class="fas fa-sign-in-alt text-blue-500 mr-2"></i>
+                                    Datang
+                                </label>
+                                <label class="flex items-center p-2.5 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="jenis" value="pulang" class="mr-2">
+                                    <i class="fas fa-sign-out-alt text-red-500 mr-2"></i>
+                                    Pulang
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-1">Tanggal</label>
+                                <input type="date" id="tanggal-guru" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-1">Waktu</label>
+                                <input type="time" id="waktu-guru" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all">
+                            <i class="fas fa-save mr-2"></i>
+                            Simpan Absensi
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Absen Siswa Page -->
+            <div id="page-absen-siswa" class="page-content hidden">
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                    <button onclick="showPage('home')" class="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-home text-sm mb-1"></i>
+                        <span class="font-medium">Beranda</span>
+                    </button>
+                    <button onclick="showPage('absen-guru')" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-user-tie text-sm mb-1"></i>
+                        <span class="font-medium">Absen Guru</span>
+                    </button>
+                    <button onclick="showPage('absen-siswa')" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-user-graduate text-sm mb-1"></i>
+                        <span class="font-medium">Absen Siswa</span>
+                    </button>
+                    <button onclick="showPage('rekap')" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-chart-bar text-sm mb-1"></i>
+                        <span class="font-medium">Rekap Absen</span>
+                    </button>
+                    <button onclick="showPage('admin')" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-cog text-sm mb-1"></i>
+                        <span class="font-medium">Admin</span>
+                    </button>
+                    <button onclick="toggleSidebar()" class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-bars text-sm mb-1"></i>
+                        <span class="font-medium">Menu</span>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-4">
+                    <form id="form-absen-siswa">
+                        <div class="mb-3">
+                            <label class="block text-gray-700 font-semibold mb-1">Pilih Kelas</label>
+                            <select id="select-kelas" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Pilih Kelas</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-gray-700 font-semibold mb-1">Guru Piket Hari Ini (2-3 orang)</label>
+                            <div id="guru-piket-container" class="space-y-2">
+                                <div class="guru-piket-item flex items-center space-x-2">
+                                    <select class="guru-piket-select flex-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                        <option value="">Pilih Guru Piket 1</option>
+                                    </select>
+                                    <button type="button" onclick="addGuruPiket()" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="daftar-siswa" class="mb-4 hidden">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-semibold text-gray-700">Daftar Siswa</h3>
+                                <div class="flex space-x-2">
+                                    <button type="button" onclick="markAllHadir()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
+                                        <i class="fas fa-check-circle mr-1"></i>Semua Hadir
+                                    </button>
+                                    <button type="button" onclick="markAllAlpha()" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                                        <i class="fas fa-times-circle mr-1"></i>Semua Alpha
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="space-y-1.5 max-h-60 overflow-y-auto">
+                                <!-- Siswa akan dimuat di sini -->
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-2">
+                            <button type="submit" class="bg-gradient-to-r from-green-500 to-green-600 text-white py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all">
+                                <i class="fas fa-save mr-2"></i>
+                                <i class="fab fa-whatsapp mr-1"></i>
+                                Simpan Absensi & Kirim Notifikasi
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Rekap Page -->
+            <div id="page-rekap" class="page-content hidden">
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                    <button onclick="showPage('home')" class="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-home text-sm mb-1"></i>
+                        <span class="font-medium">Beranda</span>
+                    </button>
+                    <button onclick="showPage('absen-guru')" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-user-tie text-sm mb-1"></i>
+                        <span class="font-medium">Absen Guru</span>
+                    </button>
+                    <button onclick="showPage('absen-siswa')" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-user-graduate text-sm mb-1"></i>
+                        <span class="font-medium">Absen Siswa</span>
+                    </button>
+                    <button onclick="showPage('rekap')" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-chart-bar text-sm mb-1"></i>
+                        <span class="font-medium">Rekap Absen</span>
+                    </button>
+                    <button onclick="showPage('admin')" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-cog text-sm mb-1"></i>
+                        <span class="font-medium">Admin</span>
+                    </button>
+                    <button onclick="toggleSidebar()" class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                        <i class="fas fa-bars text-sm mb-1"></i>
+                        <span class="font-medium">Menu</span>
+                    </button>
+                </div>
+
+                <!-- Rekap Tabs -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="flex bg-gray-50">
+                        <button onclick="showRekapTab('guru')" class="rekap-tab px-4 py-2.5 font-medium text-sm border-b-2 border-blue-500 text-blue-600 bg-white">
+                            <i class="fas fa-user-tie mr-2"></i>Rekap Guru
+                        </button>
+                        <button onclick="showRekapTab('siswa')" class="rekap-tab px-4 py-2.5 font-medium text-sm border-b-2 border-transparent text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-user-graduate mr-2"></i>Rekap Siswa
+                        </button>
+                    </div>
+
+                    <div class="p-4">
+                        <!-- Rekap Guru Tab -->
+                        <div id="rekap-tab-guru" class="rekap-tab-content">
+                            <h3 class="font-bold text-lg mb-4">Rekap Absensi Guru</h3>
+                            
+                            <!-- Filter Guru -->
+                            <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                                <h4 class="font-semibold text-gray-800 mb-3">Filter Rekap Guru</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                                    <div>
+                                        <label class="block font-medium mb-1 text-sm text-gray-700">Pilih Guru</label>
+                                        <select id="filter-guru" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="semua">Semua Guru</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block font-medium mb-1 text-sm text-gray-700">Bulan</label>
+                                        <select id="filter-bulan-guru" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="1">Januari</option>
+                                            <option value="2">Februari</option>
+                                            <option value="3">Maret</option>
+                                            <option value="4">April</option>
+                                            <option value="5">Mei</option>
+                                            <option value="6">Juni</option>
+                                            <option value="7">Juli</option>
+                                            <option value="8">Agustus</option>
+                                            <option value="9">September</option>
+                                            <option value="10">Oktober</option>
+                                            <option value="11">November</option>
+                                            <option value="12">Desember</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block font-medium mb-1 text-sm text-gray-700">Tahun</label>
+                                        <select id="filter-tahun-guru" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="2023">2023</option>
+                                            <option value="2024" selected>2024</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <button onclick="loadRekapGuru()" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2.5 px-3 rounded-lg hover:shadow-lg transition-all font-semibold text-sm">
+                                            <i class="fas fa-search mr-2"></i>Tampilkan Rekap
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hasil Rekap Guru -->
+                            <div id="hasil-rekap-guru">
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+                                    <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                        <div class="text-xl font-bold text-gray-800">0</div>
+                                        <div class="text-xs text-gray-600">Total Guru</div>
+                                    </div>
+                                    <div class="bg-green-50 rounded-lg p-3 text-center">
+                                        <div class="text-xl font-bold text-green-600">0</div>
+                                        <div class="text-xs text-gray-600">Total Hadir</div>
+                                    </div>
+                                    <div class="bg-yellow-50 rounded-lg p-3 text-center">
+                                        <div class="text-xl font-bold text-yellow-600">0</div>
+                                        <div class="text-xs text-gray-600">Total Izin</div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-lg p-3 text-center">
+                                        <div class="text-xl font-bold text-red-600">0</div>
+                                        <div class="text-xs text-gray-600">Total Tidak Hadir</div>
+                                    </div>
+                                </div>
+
+                                <!-- Tabel Detail Guru -->
+                                <div class="overflow-x-auto">
+                                    <table class="w-full border border-gray-300 rounded-lg">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="p-3 text-left border-b">Nama Guru</th>
+                                                <th class="p-3 text-center border-b">Hadir</th>
+                                                <th class="p-3 text-center border-b">Izin</th>
+                                                <th class="p-3 text-center border-b">Tidak Hadir</th>
+                                                <th class="p-3 text-center border-b">Persentase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="5" class="p-6 text-center text-gray-500">
+                                                    <i class="fas fa-calendar-times text-3xl mb-2 text-gray-300"></i>
+                                                    <p>Belum ada data absensi guru</p>
+                                                    <p class="text-sm">Data akan muncul setelah guru melakukan absensi</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rekap Siswa Tab -->
+                        <div id="rekap-tab-siswa" class="rekap-tab-content hidden">
+                            <h3 class="font-bold text-lg mb-4">Rekap Absensi Siswa</h3>
+                            
+                            <!-- Filter Siswa -->
+                            <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                                <h4 class="font-semibold text-gray-800 mb-3">Filter Rekap Siswa</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                                    <div>
+                                        <label class="block font-medium mb-1 text-sm text-gray-700">Pilih Kelas</label>
+                                        <select id="filter-kelas" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="semua">Semua Kelas</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block font-medium mb-1 text-sm text-gray-700">Bulan</label>
+                                        <select id="filter-bulan-siswa" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="1">Januari</option>
+                                            <option value="2">Februari</option>
+                                            <option value="3">Maret</option>
+                                            <option value="4">April</option>
+                                            <option value="5">Mei</option>
+                                            <option value="6">Juni</option>
+                                            <option value="7">Juli</option>
+                                            <option value="8">Agustus</option>
+                                            <option value="9">September</option>
+                                            <option value="10">Oktober</option>
+                                            <option value="11">November</option>
+                                            <option value="12">Desember</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block font-medium mb-1 text-sm text-gray-700">Tahun</label>
+                                        <select id="filter-tahun-siswa" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="2023">2023</option>
+                                            <option value="2024" selected>2024</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <button onclick="loadRekapSiswa()" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2.5 px-3 rounded-lg hover:shadow-lg transition-all font-semibold text-sm">
+                                            <i class="fas fa-search mr-2"></i>Tampilkan Rekap
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hasil Rekap Siswa -->
+                            <div id="hasil-rekap-siswa">
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+                                    <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                        <div class="text-xl font-bold text-gray-800">0</div>
+                                        <div class="text-xs text-gray-600">Total Siswa</div>
+                                    </div>
+                                    <div class="bg-green-50 rounded-lg p-3 text-center">
+                                        <div class="text-xl font-bold text-green-600">0</div>
+                                        <div class="text-xs text-gray-600">Total Hadir</div>
+                                    </div>
+                                    <div class="bg-yellow-50 rounded-lg p-3 text-center">
+                                        <div class="text-xl font-bold text-yellow-600">0</div>
+                                        <div class="text-xs text-gray-600">Total Sakit/Izin</div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-lg p-3 text-center">
+                                        <div class="text-xl font-bold text-red-600">0</div>
+                                        <div class="text-xs text-gray-600">Total Tidak Hadir</div>
+                                    </div>
+                                </div>
+
+                                <!-- Tabel Detail Per Kelas -->
+                                <div class="overflow-x-auto">
+                                    <table class="w-full border border-gray-300 rounded-lg">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="p-3 text-left border-b">Kelas</th>
+                                                <th class="p-3 text-center border-b">Jumlah Siswa</th>
+                                                <th class="p-3 text-center border-b">Hadir</th>
+                                                <th class="p-3 text-center border-b">Sakit/Izin</th>
+                                                <th class="p-3 text-center border-b">Tidak Hadir</th>
+                                                <th class="p-3 text-center border-b">Persentase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="6" class="p-6 text-center text-gray-500">
+                                                    <i class="fas fa-calendar-times text-3xl mb-2 text-gray-300"></i>
+                                                    <p>Belum ada data absensi siswa</p>
+                                                    <p class="text-sm">Data akan muncul setelah melakukan absensi siswa</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Page -->
+            <div id="page-admin" class="page-content hidden">
+                <!-- Admin Login Form -->
+                <div id="admin-login-form" class="max-w-md mx-auto">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-shield-alt text-white text-2xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800">Login Admin</h2>
+                            <p class="text-gray-600 text-sm mt-2">Masukkan username dan password untuk mengakses panel admin</p>
+                        </div>
+                        
+                        <form id="form-login-admin" class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">
+                                    <i class="fas fa-user mr-2"></i>Username
+                                </label>
+                                <input type="text" id="admin-username" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="Masukkan username" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">
+                                    <i class="fas fa-lock mr-2"></i>Password
+                                </label>
+                                <div class="relative">
+                                    <input type="password" id="admin-password" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent pr-12" placeholder="Masukkan password" required>
+                                    <button type="button" onclick="togglePasswordVisibility('admin-password')" class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="login-error" class="hidden bg-red-50 border border-red-200 rounded-lg p-3">
+                                <div class="flex items-center text-red-700">
+                                    <i class="fas fa-exclamation-circle mr-2"></i>
+                                    <span class="text-sm">Username atau password salah!</span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                Login Admin
+                            </button>
+                        </form>
+                        
+                        <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2 flex items-center">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Informasi Login
+                            </h4>
+                            <div class="text-sm text-blue-700 space-y-1">
+                                <p><strong>Username:</strong> admin</p>
+                                <p><strong>Password:</strong> admin123</p>
+                                <p class="text-xs text-blue-600 mt-2">
+                                    <i class="fas fa-shield-alt mr-1"></i>
+                                    Ganti password default setelah login pertama
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Panel (Hidden until login) -->
+                <div id="admin-panel" class="hidden">
+                    <!-- Quick Actions -->
+                    <div class="grid grid-cols-3 gap-2 mb-3">
+                        <button onclick="showPage('home')" class="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                            <i class="fas fa-home text-sm mb-1"></i>
+                            <span class="font-medium">Beranda</span>
+                        </button>
+                        <button onclick="showPage('absen-guru')" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                            <i class="fas fa-user-tie text-sm mb-1"></i>
+                            <span class="font-medium">Absen Guru</span>
+                        </button>
+                        <button onclick="showPage('absen-siswa')" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                            <i class="fas fa-user-graduate text-sm mb-1"></i>
+                            <span class="font-medium">Absen Siswa</span>
+                        </button>
+                        <button onclick="showPage('rekap')" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                            <i class="fas fa-chart-bar text-sm mb-1"></i>
+                            <span class="font-medium">Rekap Absen</span>
+                        </button>
+                        <button onclick="logoutAdmin()" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                            <i class="fas fa-sign-out-alt text-sm mb-1"></i>
+                            <span class="font-medium">Logout</span>
+                        </button>
+                        <button onclick="toggleSidebar()" class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-3 py-2 rounded-md shadow-md hover:shadow-lg transition-all text-xs flex flex-col items-center justify-center">
+                            <i class="fas fa-bars text-sm mb-1"></i>
+                            <span class="font-medium">Menu</span>
+                        </button>
+                    </div>
+
+                    <!-- Admin Header -->
+                    <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user-shield text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="font-bold text-lg text-gray-800">Panel Administrator</h2>
+                                    <p class="text-sm text-gray-600">Selamat datang, <span id="admin-name">Administrator</span></p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm text-gray-600">Login: <span id="login-time"></span></div>
+                                <button onclick="logoutAdmin()" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                    <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Admin Tabs -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="flex overflow-x-auto bg-gray-50">
+                        <button onclick="showAdminTab('kelas')" class="admin-tab px-3 py-2.5 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600 bg-white">
+                            <i class="fas fa-door-open mr-1"></i>Kelola Kelas
+                        </button>
+                        <button onclick="showAdminTab('guru')" class="admin-tab px-3 py-2.5 font-medium text-sm whitespace-nowrap border-b-2 border-transparent text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-user-tie mr-1"></i>Data Guru
+                        </button>
+                        <button onclick="showAdminTab('siswa')" class="admin-tab px-3 py-2.5 font-medium text-sm whitespace-nowrap border-b-2 border-transparent text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-user-graduate mr-1"></i>Data Siswa
+                        </button>
+                        <button onclick="showAdminTab('whatsapp')" class="admin-tab px-3 py-2.5 font-medium text-sm whitespace-nowrap border-b-2 border-transparent text-gray-600 hover:text-gray-800">
+                            <i class="fab fa-whatsapp mr-1"></i>API WhatsApp
+                        </button>
+                        <button onclick="showAdminTab('pengaturan')" class="admin-tab px-3 py-2.5 font-medium text-sm whitespace-nowrap border-b-2 border-transparent text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-cog mr-1"></i>Pengaturan
+                        </button>
+                    </div>
+
+                    <div class="p-4">
+                        <!-- Kelola Kelas Tab -->
+                        <div id="admin-tab-kelas" class="admin-tab-content">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-bold text-lg">Kelola Kelas</h3>
+                                <div class="flex items-center space-x-3">
+                                    <select id="filter-kelas-admin" onchange="filterKelasByName()" class="p-2 border border-gray-300 rounded-lg">
+                                        <option value="">Semua Kelas</option>
+                                    </select>
+                                    <button onclick="toggleFormKelas()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                        <i class="fas fa-plus mr-2"></i>Tambah Kelas
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Form Input Kelas (Hidden by default) -->
+                            <div id="form-kelas" class="hidden mb-6 p-4 bg-gray-50 rounded-lg">
+                                <h4 class="font-semibold mb-3">Tambah Kelas Baru</h4>
+                                <form id="form-input-kelas" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" id="nama-kelas" placeholder="Nama Kelas (contoh: VII A)" class="p-3 border border-gray-300 rounded-lg" required>
+                                    <select id="wali-kelas" class="p-3 border border-gray-300 rounded-lg" required>
+                                        <option value="">Pilih Wali Kelas</option>
+                                        <option value="Dra. Siti Aminah, M.Pd">Dra. Siti Aminah, M.Pd</option>
+                                        <option value="Ahmad Fauzi, S.Pd">Ahmad Fauzi, S.Pd</option>
+                                        <option value="Rina Sari, S.Pd">Rina Sari, S.Pd</option>
+                                        <option value="Budi Santoso, M.Pd">Budi Santoso, M.Pd</option>
+                                        <option value="Dewi Lestari, S.Pd">Dewi Lestari, S.Pd</option>
+                                    </select>
+                                    <div class="flex gap-2 md:col-span-2">
+                                        <button type="submit" class="bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 flex-1">
+                                            <i class="fas fa-save mr-2"></i>Simpan
+                                        </button>
+                                        <button type="button" onclick="cancelFormKelas()" class="bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700">
+                                            <i class="fas fa-times mr-2"></i>Batal
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Daftar Kelas -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full border border-gray-300 rounded-lg">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="p-3 text-left border-b">Nama Kelas</th>
+                                            <th class="p-3 text-left border-b">Wali Kelas</th>
+                                            <th class="p-3 text-center border-b">Jumlah Siswa</th>
+                                            <th class="p-3 text-center border-b">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabel-kelas">
+                                        <tr>
+                                            <td colspan="4" class="p-6 text-center text-gray-500">
+                                                <i class="fas fa-door-open text-3xl mb-2 text-gray-300"></i>
+                                                <p>Belum ada data kelas</p>
+                                                <p class="text-sm">Klik "Tambah Kelas" untuk menambah kelas baru</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Data Guru Tab -->
+                        <div id="admin-tab-guru" class="admin-tab-content hidden">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-bold text-lg">Data Guru</h3>
+                                <button onclick="toggleFormGuru()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                    <i class="fas fa-plus mr-2"></i>Tambah Guru
+                                </button>
+                            </div>
+                            
+                            <!-- Form Input Guru (Hidden by default) -->
+                            <div id="form-guru" class="hidden mb-6 p-4 bg-gray-50 rounded-lg">
+                                <h4 class="font-semibold mb-3">Input Data Guru</h4>
+                                <form id="form-input-guru" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" id="nama-guru" placeholder="Nama Lengkap" class="p-3 border border-gray-300 rounded-lg" required>
+                                    <input type="text" id="nip-guru" placeholder="NIP" class="p-3 border border-gray-300 rounded-lg" required>
+                                    <input type="email" id="email-guru" placeholder="Email" class="p-3 border border-gray-300 rounded-lg">
+                                    <input type="tel" id="telp-guru" placeholder="No. Telepon" class="p-3 border border-gray-300 rounded-lg">
+                                    <select id="mapel-guru" class="p-3 border border-gray-300 rounded-lg" required>
+                                        <option value="">Pilih Mata Pelajaran</option>
+                                        <option value="Matematika">Matematika</option>
+                                        <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                                        <option value="IPA">IPA</option>
+                                        <option value="IPS">IPS</option>
+                                        <option value="Bahasa Inggris">Bahasa Inggris</option>
+                                        <option value="PKn">PKn</option>
+                                        <option value="Seni Budaya">Seni Budaya</option>
+                                        <option value="PJOK">PJOK</option>
+                                    </select>
+                                    <div class="flex gap-2">
+                                        <button type="submit" class="bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 flex-1">
+                                            <i class="fas fa-save mr-2"></i>Simpan
+                                        </button>
+                                        <button type="button" onclick="cancelFormGuru()" class="bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700">
+                                            <i class="fas fa-times mr-2"></i>Batal
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Daftar Guru -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full border border-gray-300 rounded-lg">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="p-3 text-left border-b">Nama</th>
+                                            <th class="p-3 text-left border-b">NIP</th>
+                                            <th class="p-3 text-left border-b">Mata Pelajaran</th>
+                                            <th class="p-3 text-left border-b">Email</th>
+                                            <th class="p-3 text-left border-b">Telepon</th>
+                                            <th class="p-3 text-center border-b">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabel-guru">
+                                        <tr>
+                                            <td colspan="6" class="p-6 text-center text-gray-500">
+                                                <i class="fas fa-user-tie text-3xl mb-2 text-gray-300"></i>
+                                                <p>Belum ada data guru</p>
+                                                <p class="text-sm">Klik "Tambah Guru" untuk menambah data guru baru</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Data Siswa Tab -->
+                        <div id="admin-tab-siswa" class="admin-tab-content hidden">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-bold text-lg">Data Siswa</h3>
+                                <button onclick="toggleFormSiswa()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                    <i class="fas fa-plus mr-2"></i>Tambah Siswa
+                                </button>
+                            </div>
+                            
+                            <!-- Form Input Siswa (Hidden by default) -->
+                            <div id="form-siswa" class="hidden mb-6 p-4 bg-gray-50 rounded-lg">
+                                <h4 class="font-semibold mb-3">Input Data Siswa</h4>
+                                <form id="form-input-siswa" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" id="nama-siswa" placeholder="Nama Lengkap" class="p-3 border border-gray-300 rounded-lg" required>
+                                    <input type="text" id="nisn-siswa" placeholder="NISN" class="p-3 border border-gray-300 rounded-lg" required>
+                                    <select id="kelas-siswa" class="p-3 border border-gray-300 rounded-lg" required>
+                                        <option value="">Pilih Kelas</option>
+                                        <option value="VII A">VII A</option>
+                                        <option value="VII B">VII B</option>
+                                        <option value="VIII A">VIII A</option>
+                                        <option value="VIII B">VIII B</option>
+                                        <option value="IX A">IX A</option>
+                                        <option value="IX B">IX B</option>
+                                    </select>
+                                    <input type="tel" id="hp-ortu" placeholder="No. HP Orang Tua" class="p-3 border border-gray-300 rounded-lg">
+                                    <input type="text" id="nama-ortu" placeholder="Nama Orang Tua" class="p-3 border border-gray-300 rounded-lg">
+                                    <div class="flex gap-2">
+                                        <button type="submit" class="bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 flex-1">
+                                            <i class="fas fa-save mr-2"></i>Simpan
+                                        </button>
+                                        <button type="button" onclick="cancelFormSiswa()" class="bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700">
+                                            <i class="fas fa-times mr-2"></i>Batal
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Filter Kelas -->
+                            <div class="mb-4">
+                                <select id="filter-kelas-siswa" onchange="filterSiswaByKelas()" class="p-2 border border-gray-300 rounded-lg">
+                                    <option value="">Semua Kelas</option>
+                                </select>
+                            </div>
+
+                            <!-- Daftar Siswa -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full border border-gray-300 rounded-lg">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="p-3 text-left border-b">Nama</th>
+                                            <th class="p-3 text-left border-b">NISN</th>
+                                            <th class="p-3 text-left border-b">Kelas</th>
+                                            <th class="p-3 text-left border-b">Nama Orang Tua</th>
+                                            <th class="p-3 text-left border-b">No. HP Orang Tua</th>
+                                            <th class="p-3 text-center border-b">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabel-siswa">
+                                        <tr>
+                                            <td colspan="6" class="p-6 text-center text-gray-500">
+                                                <i class="fas fa-user-graduate text-3xl mb-2 text-gray-300"></i>
+                                                <p>Belum ada data siswa</p>
+                                                <p class="text-sm">Klik "Tambah Siswa" untuk menambah data siswa baru</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- API WhatsApp Tab -->
+                        <div id="admin-tab-whatsapp" class="admin-tab-content hidden">
+                            <h3 class="font-bold text-lg mb-6">Pengaturan API WhatsApp</h3>
+                            
+                            <!-- Tutorial Section -->
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                                <h4 class="font-bold text-blue-800 mb-4 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Tutorial Pengaturan API WhatsApp dengan Sidobe
+                                </h4>
+                                
+                                <div class="space-y-4 text-sm">
+                                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                        <h5 class="font-semibold text-green-700 mb-2 flex items-center">
+                                            <i class="fas fa-star mr-2"></i>
+                                            Mengapa Sidobe?
+                                        </h5>
+                                        <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
+                                            <li><strong>Gratis:</strong> Tidak ada biaya berlangganan bulanan</li>
+                                            <li><strong>Mudah Setup:</strong> Hanya perlu scan QR Code sekali</li>
+                                            <li><strong>Stabil:</strong> Koneksi WhatsApp yang handal</li>
+                                            <li><strong>Support Indonesia:</strong> Tim support berbahasa Indonesia</li>
+                                            <li><strong>Multi Device:</strong> Bisa digunakan bersamaan dengan WhatsApp Web</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 border border-blue-100">
+                                        <h5 class="font-semibold text-blue-700 mb-2">1. Cara Mendaftar Sidobe</h5>
+                                        <ol class="list-decimal list-inside text-gray-600 space-y-2 ml-4">
+                                            <li>Kunjungi <a href="https://sidobe.net" target="_blank" class="text-blue-600 underline font-medium">sidobe.net</a></li>
+                                            <li>Klik tombol <strong>"Daftar Gratis"</strong></li>
+                                            <li>Isi form pendaftaran:
+                                                <ul class="list-disc list-inside ml-4 mt-1 text-sm">
+                                                    <li>Nama lengkap</li>
+                                                    <li>Email aktif</li>
+                                                    <li>Nomor WhatsApp</li>
+                                                    <li>Password yang kuat</li>
+                                                </ul>
+                                            </li>
+                                            <li>Verifikasi email yang dikirim ke inbox Anda</li>
+                                            <li>Login ke dashboard Sidobe</li>
+                                        </ol>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 border border-blue-100">
+                                        <h5 class="font-semibold text-blue-700 mb-2">2. Setup Device WhatsApp</h5>
+                                        <ol class="list-decimal list-inside text-gray-600 space-y-2 ml-4">
+                                            <li>Di dashboard Sidobe, klik <strong>"Tambah Device"</strong></li>
+                                            <li>Pilih nama device (contoh: "Absensi Sekolah")</li>
+                                            <li>Akan muncul QR Code</li>
+                                            <li>Buka WhatsApp di HP → Menu (3 titik) → <strong>"Linked Devices"</strong></li>
+                                            <li>Tap <strong>"Link a Device"</strong> → Scan QR Code</li>
+                                            <li>Tunggu hingga status berubah menjadi <span class="text-green-600 font-medium">"Connected"</span></li>
+                                        </ol>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 border border-blue-100">
+                                        <h5 class="font-semibold text-blue-700 mb-2">3. Mendapatkan API Token</h5>
+                                        <ol class="list-decimal list-inside text-gray-600 space-y-2 ml-4">
+                                            <li>Setelah device terhubung, klik device yang sudah dibuat</li>
+                                            <li>Pilih tab <strong>"API Settings"</strong></li>
+                                            <li>Copy <strong>API Token</strong> yang tersedia</li>
+                                            <li>Copy juga <strong>Device ID</strong></li>
+                                            <li>Catat <strong>Webhook URL</strong> jika diperlukan</li>
+                                        </ol>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 border border-blue-100">
+                                        <h5 class="font-semibold text-blue-700 mb-2">4. Format API Sidobe</h5>
+                                        <p class="text-gray-700 mb-2">Endpoint dan format untuk Sidobe:</p>
+                                        <div class="bg-gray-100 p-3 rounded text-xs font-mono">
+                                            <strong>Endpoint:</strong> https://api.sidobe.net/send-message<br>
+                                            <strong>Method:</strong> POST<br>
+                                            <strong>Headers:</strong><br>
+                                            &nbsp;&nbsp;Content-Type: application/json<br>
+                                            &nbsp;&nbsp;Authorization: Bearer YOUR_API_TOKEN<br><br>
+                                            <strong>Body (JSON):</strong><br>
+                                            {<br>
+                                            &nbsp;&nbsp;"device_id": "YOUR_DEVICE_ID",<br>
+                                            &nbsp;&nbsp;"number": "628123456789",<br>
+                                            &nbsp;&nbsp;"message": "Pesan Anda"<br>
+                                            }
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 border border-blue-100">
+                                        <h5 class="font-semibold text-blue-700 mb-2">5. Tips Penggunaan Sidobe</h5>
+                                        <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                            <li><strong>Jangan logout WhatsApp Web:</strong> Biarkan tetap aktif agar Sidobe stabil</li>
+                                            <li><strong>Cek status device:</strong> Pastikan status "Connected" sebelum kirim pesan</li>
+                                            <li><strong>Format nomor:</strong> Gunakan format 628xxxxxxxxx (tanpa +)</li>
+                                            <li><strong>Rate limit:</strong> Maksimal 30 pesan per menit untuk akun gratis</li>
+                                            <li><strong>Backup token:</strong> Simpan API Token di tempat yang aman</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                        <h5 class="font-semibold text-yellow-700 mb-2 flex items-center">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                                            Troubleshooting
+                                        </h5>
+                                        <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4 text-sm">
+                                            <li><strong>Device Disconnected:</strong> Scan ulang QR Code di dashboard</li>
+                                            <li><strong>Pesan tidak terkirim:</strong> Cek format nomor dan status device</li>
+                                            <li><strong>API Error:</strong> Pastikan token dan device ID benar</li>
+                                            <li><strong>Rate limit exceeded:</strong> Tunggu 1 menit sebelum kirim lagi</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Configuration Form -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-gray-800 mb-4">Konfigurasi API</h4>
+                                
+                                <form id="form-whatsapp-config" class="space-y-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block font-semibold mb-2">Provider API</label>
+                                            <select id="wa-provider" class="w-full p-3 border border-gray-300 rounded-lg">
+                                                <option value="">Pilih Provider</option>
+                                                <option value="sidobe">Sidobe (Gratis)</option>
+                                                <option value="fonnte">Fonnte</option>
+                                                <option value="wablas">Wablas</option>
+                                                <option value="woowa">Woowa</option>
+                                                <option value="custom">Custom/Lainnya</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block font-semibold mb-2">API Endpoint URL</label>
+                                            <input type="url" id="wa-endpoint" placeholder="https://api.provider.com/send" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block font-semibold mb-2">API Token/Key</label>
+                                            <div class="relative">
+                                                <input type="password" id="wa-token" placeholder="Masukkan API Token" class="w-full p-3 border border-gray-300 rounded-lg pr-12">
+                                                <button type="button" onclick="togglePasswordVisibility('wa-token')" class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block font-semibold mb-2">Instance/Device ID</label>
+                                            <input type="text" id="wa-instance" placeholder="Instance ID (jika diperlukan)" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block font-semibold mb-2">Template Pesan Absensi</label>
+                                        <textarea id="wa-template" rows="4" placeholder="🏫 *SMP Negeri 3 Lempuing Jaya*
+
+Assalamu'alaikum {nama_ortu},
+
+Hari {tanggal} ananda *{nama_siswa}*, {kelas}, telah melakukan absensi dengan status *{status_absensi}*.
+
+Guru Piket: {guru_piket}
+
+Terima kasih atas perhatiannya.
+
+_Salam hormat,_
+_Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-300 rounded-lg"></textarea>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            Variabel yang tersedia: {nama_ortu}, {nama_siswa}, {kelas}, {tanggal}, {waktu}, {status_absensi}, {guru_piket}, {nama_sekolah}
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block font-semibold mb-2">Nomor Test</label>
+                                            <input type="tel" id="wa-test-number" placeholder="628123456789" class="w-full p-3 border border-gray-300 rounded-lg">
+                                            <p class="text-xs text-gray-500 mt-1">Format: 628xxxxxxxxx (tanpa +)</p>
+                                        </div>
+                                        <div class="flex items-end">
+                                            <button type="button" onclick="testWhatsAppConnection()" class="w-full bg-yellow-600 text-white py-3 px-4 rounded-lg hover:bg-yellow-700 transition-colors">
+                                                <i class="fas fa-vial mr-2"></i>Test Koneksi
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex gap-3">
+                                        <button type="submit" class="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors">
+                                            <i class="fas fa-save mr-2"></i>Simpan Pengaturan
+                                        </button>
+                                        <button type="button" onclick="resetWhatsAppConfig()" class="bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors">
+                                            <i class="fas fa-undo mr-2"></i>Reset
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Status Connection -->
+                            <div id="wa-status" class="hidden mt-4 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <i id="wa-status-icon" class="fas fa-circle mr-2"></i>
+                                    <span id="wa-status-text" class="font-medium"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Log Activity -->
+                            <div class="mt-6 bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-semibold text-gray-800 mb-3">Log Aktivitas WhatsApp</h4>
+                                <div id="wa-log" class="space-y-2 max-h-40 overflow-y-auto">
+                                    <div class="text-sm text-gray-600 p-2 bg-white rounded border-l-4 border-blue-400">
+                                        <span class="font-medium">Info:</span> Sistem siap menerima konfigurasi API WhatsApp
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pengaturan Tab -->
+                        <div id="admin-tab-pengaturan" class="admin-tab-content hidden">
+                            <h3 class="font-bold text-lg mb-4">Pengaturan Sekolah</h3>
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block font-semibold mb-2">Logo Sekolah</label>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                        <p class="text-gray-600">Klik untuk upload logo sekolah</p>
+                                        <input type="file" accept="image/*" class="hidden">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block font-semibold mb-2">Nama Sekolah</label>
+                                        <input type="text" value="SMP Negeri 3 Lempuing Jaya" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label class="block font-semibold mb-2">NPSN</label>
+                                        <input type="text" value="10123456" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label class="block font-semibold mb-2">Alamat</label>
+                                        <input type="text" value="Jl. Pendidikan No. 123, Lempuing Jaya" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label class="block font-semibold mb-2">Telepon</label>
+                                        <input type="tel" value="(0711) 123-4567" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label class="block font-semibold mb-2">Nama Kepala Sekolah</label>
+                                        <input type="text" value="Drs. H. Ahmad Suryadi, M.Pd" class="w-full p-3 border border-gray-300 rounded-lg">
+                                    </div>
+                                </div>
+                                <button class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">
+                                    <i class="fas fa-save mr-2"></i>Simpan Pengaturan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Admin authentication
+        let isAdminLoggedIn = false;
+        let adminCredentials = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            setInterval(updateTime, 1000);
+            setCurrentTimestamp();
+            setCurrentMonthYear();
+            
+            // Initialize all dropdowns with current data
+            updateAllDropdowns();
+            updateJumlahSiswaPerKelas();
+            
+            // Check admin login status
+            checkAdminLoginStatus();
+        });
+
+        // Time functions
+        function updateTime() {
+            const now = new Date();
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions);
+            document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
+        }
+
+        function setCurrentTimestamp() {
+            const now = new Date();
+            const tanggalInput = document.getElementById('tanggal-guru');
+            const waktuInput = document.getElementById('waktu-guru');
+            
+            if (tanggalInput) {
+                tanggalInput.value = now.toISOString().slice(0, 10);
+                // Add event listener for date changes
+                tanggalInput.addEventListener('change', checkGuruAttendanceStatus);
+            }
+            if (waktuInput) {
+                waktuInput.value = now.toTimeString().slice(0, 5);
+            }
+        }
+
+        function setCurrentMonthYear() {
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1; // getMonth() returns 0-11
+            const currentYear = now.getFullYear();
+            
+            // Set current month for guru filter
+            const filterBulanGuru = document.getElementById('filter-bulan-guru');
+            if (filterBulanGuru) {
+                filterBulanGuru.value = currentMonth.toString();
+            }
+            
+            // Set current month for siswa filter
+            const filterBulanSiswa = document.getElementById('filter-bulan-siswa');
+            if (filterBulanSiswa) {
+                filterBulanSiswa.value = currentMonth.toString();
+            }
+            
+            // Set current year for guru filter
+            const filterTahunGuru = document.getElementById('filter-tahun-guru');
+            if (filterTahunGuru) {
+                filterTahunGuru.value = currentYear.toString();
+            }
+            
+            // Set current year for siswa filter
+            const filterTahunSiswa = document.getElementById('filter-tahun-siswa');
+            if (filterTahunSiswa) {
+                filterTahunSiswa.value = currentYear.toString();
+            }
+        }
+
+        // Admin authentication functions
+        function checkAdminLoginStatus() {
+            // Check if admin is logged in (using sessionStorage for demo)
+            const adminSession = sessionStorage.getItem('adminLoggedIn');
+            if (adminSession === 'true') {
+                isAdminLoggedIn = true;
+                showAdminPanel();
+            } else {
+                isAdminLoggedIn = false;
+                showAdminLogin();
+            }
+        }
+
+        function showAdminLogin() {
+            document.getElementById('admin-login-form').classList.remove('hidden');
+            document.getElementById('admin-panel').classList.add('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function showAdminPanel() {
+            document.getElementById('admin-login-form').classList.add('hidden');
+            document.getElementById('admin-panel').classList.remove('hidden');
+            
+            // Set login time
+            const loginTime = new Date().toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('login-time').textContent = loginTime;
+        }
+
+        function loginAdmin(username, password) {
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                sessionStorage.setItem('adminLoginTime', new Date().toISOString());
+                
+                showAdminPanel();
+                showNotification('success', 'Login Berhasil!', 'Selamat datang di panel administrator');
+                
+                return true;
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+                showNotification('error', 'Login Gagal', 'Username atau password salah');
+                return false;
+            }
+        }
+
+        function logoutAdmin() {
+            if (confirm('Yakin ingin logout dari panel admin?')) {
+                isAdminLoggedIn = false;
+                sessionStorage.removeItem('adminLoggedIn');
+                sessionStorage.removeItem('adminLoginTime');
+                
+                showAdminLogin();
+                showNotification('info', 'Logout Berhasil', 'Anda telah keluar dari panel administrator');
+                
+                // Clear form
+                document.getElementById('form-login-admin').reset();
+            }
+        }
+
+        // Navigation functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function showPage(pageId) {
+            // Check if trying to access admin page
+            if (pageId === 'admin' && !isAdminLoggedIn) {
+                // Hide all pages
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.add('hidden');
+                });
+                
+                // Show admin page with login form
+                document.getElementById('page-admin').classList.remove('hidden');
+                showAdminLogin();
+            } else if (pageId === 'admin' && isAdminLoggedIn) {
+                // Hide all pages
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.add('hidden');
+                });
+                
+                // Show admin page with panel
+                document.getElementById('page-admin').classList.remove('hidden');
+                showAdminPanel();
+            } else {
+                // Normal page navigation
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.add('hidden');
+                });
+                
+                document.getElementById('page-' + pageId).classList.remove('hidden');
+            }
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('bg-blue-700');
+            });
+            
+            // Auto-hide sidebar after selection
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        // Admin tab functions
+        function showAdminTab(tabId) {
+            // Hide all admin tabs
+            document.querySelectorAll('.admin-tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            document.getElementById('admin-tab-' + tabId).classList.remove('hidden');
+            
+            // Update active tab button
+            document.querySelectorAll('.admin-tab').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'text-blue-600', 'bg-white');
+                btn.classList.add('border-transparent', 'text-gray-600');
+            });
+            event.target.classList.remove('border-transparent', 'text-gray-600');
+            event.target.classList.add('border-blue-500', 'text-blue-600', 'bg-white');
+        }
+
+        // Rekap tab functions
+        function showRekapTab(tabId) {
+            // Hide all rekap tabs
+            document.querySelectorAll('.rekap-tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            document.getElementById('rekap-tab-' + tabId).classList.remove('hidden');
+            
+            // Update active tab button
+            document.querySelectorAll('.rekap-tab').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'text-blue-600', 'bg-white');
+                btn.classList.add('border-transparent', 'text-gray-600');
+            });
+            event.target.classList.remove('border-transparent', 'text-gray-600');
+            event.target.classList.add('border-blue-500', 'text-blue-600', 'bg-white');
+        }
+
+        // Student attendance tracking
+        let absensiSiswa = [
+            // Format: {nama: 'Nama Siswa', kelas: 'VII A', tanggal: 'YYYY-MM-DD', status: 'hadir/sakit/izin/alpha'}
+        ];
+
+        // Load rekap functions with accurate calculations
+        function loadRekapGuru() {
+            const guru = document.getElementById('filter-guru').value;
+            const bulan = parseInt(document.getElementById('filter-bulan-guru').value);
+            const tahun = parseInt(document.getElementById('filter-tahun-guru').value);
+            
+            const bulanNama = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                              'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            // Calculate actual attendance data
+            const rekapData = calculateGuruAttendance(guru, bulan, tahun);
+            updateGuruRekapDisplay(rekapData, guru, bulanNama[bulan], tahun);
+            
+            showNotification('success', 'Rekap Berhasil Dimuat', 
+                `Menampilkan rekap ${guru === 'semua' ? 'semua guru' : getGuruNameById(guru)} untuk ${bulanNama[bulan]} ${tahun}`);
+        }
+
+        function loadRekapSiswa() {
+            const kelas = document.getElementById('filter-kelas').value;
+            const bulan = parseInt(document.getElementById('filter-bulan-siswa').value);
+            const tahun = parseInt(document.getElementById('filter-tahun-siswa').value);
+            
+            const bulanNama = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                              'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            // Calculate actual attendance data
+            const rekapData = calculateSiswaAttendance(kelas, bulan, tahun);
+            updateSiswaRekapDisplay(rekapData, kelas, bulanNama[bulan], tahun);
+            
+            showNotification('success', 'Rekap Berhasil Dimuat', 
+                `Menampilkan rekap ${kelas === 'semua' ? 'semua kelas' : kelas} untuk ${bulanNama[bulan]} ${tahun}`);
+        }
+
+        // Calculate teacher attendance based on actual data
+        function calculateGuruAttendance(guruFilter, bulan, tahun) {
+            const startDate = new Date(tahun, bulan - 1, 1);
+            const endDate = new Date(tahun, bulan, 0);
+            const totalWorkingDays = getWorkingDaysInMonth(startDate, endDate);
+            
+            let filteredGuru = dataGuru;
+            if (guruFilter !== 'semua') {
+                const guruIndex = parseInt(guruFilter.replace('guru', ''));
+                filteredGuru = [dataGuru[guruIndex]];
+            }
+            
+            const rekapGuru = filteredGuru.map(guru => {
+                const attendanceRecords = absensiGuru.filter(record => {
+                    const recordDate = new Date(record.tanggal);
+                    return record.nama === guru.nama && 
+                           recordDate.getMonth() === bulan - 1 && 
+                           recordDate.getFullYear() === tahun;
+                });
+                
+                const hadir = attendanceRecords.filter(r => r.status === 'hadir').length;
+                const izin = attendanceRecords.filter(r => r.status === 'izin').length;
+                const tidakHadir = Math.max(0, totalWorkingDays - hadir - izin);
+                const persentase = totalWorkingDays > 0 ? ((hadir / totalWorkingDays) * 100).toFixed(1) : '0.0';
+                
+                return {
+                    nama: guru.nama,
+                    hadir: hadir,
+                    izin: izin,
+                    tidakHadir: tidakHadir,
+                    persentase: persentase + '%'
+                };
+            });
+            
+            // Calculate totals
+            const totalHadir = rekapGuru.reduce((sum, guru) => sum + guru.hadir, 0);
+            const totalIzin = rekapGuru.reduce((sum, guru) => sum + guru.izin, 0);
+            const totalTidakHadir = rekapGuru.reduce((sum, guru) => sum + guru.tidakHadir, 0);
+            
+            return {
+                guru: rekapGuru,
+                summary: {
+                    totalGuru: filteredGuru.length,
+                    totalHadir: totalHadir,
+                    totalIzin: totalIzin,
+                    totalTidakHadir: totalTidakHadir,
+                    workingDays: totalWorkingDays
+                }
+            };
+        }
+
+        // Calculate student attendance based on actual data
+        function calculateSiswaAttendance(kelasFilter, bulan, tahun) {
+            const startDate = new Date(tahun, bulan - 1, 1);
+            const endDate = new Date(tahun, bulan, 0);
+            const totalWorkingDays = getWorkingDaysInMonth(startDate, endDate);
+            
+            let filteredKelas = dataKelas;
+            if (kelasFilter !== 'semua') {
+                filteredKelas = dataKelas.filter(kelas => kelas.nama === kelasFilter);
+            }
+            
+            const rekapKelas = filteredKelas.map(kelas => {
+                const siswaKelas = dataSiswa.filter(siswa => siswa.kelas === kelas.nama);
+                const jumlahSiswa = siswaKelas.length;
+                
+                // Calculate attendance for this class
+                const attendanceRecords = absensiSiswa.filter(record => {
+                    const recordDate = new Date(record.tanggal);
+                    return record.kelas === kelas.nama && 
+                           recordDate.getMonth() === bulan - 1 && 
+                           recordDate.getFullYear() === tahun;
+                });
+                
+                const hadir = attendanceRecords.filter(r => r.status === 'hadir').length;
+                const sakit = attendanceRecords.filter(r => r.status === 'sakit').length;
+                const izin = attendanceRecords.filter(r => r.status === 'izin').length;
+                const alpha = attendanceRecords.filter(r => r.status === 'alpha').length;
+                const sakitIzin = sakit + izin;
+                
+                // Calculate expected total attendance (students × working days)
+                const expectedTotal = jumlahSiswa * totalWorkingDays;
+                const actualTotal = hadir + sakitIzin + alpha;
+                const tidakHadir = Math.max(0, expectedTotal - hadir - sakitIzin);
+                
+                const persentase = expectedTotal > 0 ? ((hadir / expectedTotal) * 100).toFixed(1) : '0.0';
+                
+                return {
+                    nama: kelas.nama,
+                    jumlahSiswa: jumlahSiswa,
+                    hadir: hadir,
+                    sakitIzin: sakitIzin,
+                    tidakHadir: tidakHadir,
+                    persentase: persentase + '%'
+                };
+            });
+            
+            // Calculate totals
+            const totalSiswa = rekapKelas.reduce((sum, kelas) => sum + kelas.jumlahSiswa, 0);
+            const totalHadir = rekapKelas.reduce((sum, kelas) => sum + kelas.hadir, 0);
+            const totalSakitIzin = rekapKelas.reduce((sum, kelas) => sum + kelas.sakitIzin, 0);
+            const totalTidakHadir = rekapKelas.reduce((sum, kelas) => sum + kelas.tidakHadir, 0);
+            
+            return {
+                kelas: rekapKelas,
+                summary: {
+                    totalSiswa: totalSiswa,
+                    totalHadir: totalHadir,
+                    totalSakitIzin: totalSakitIzin,
+                    totalTidakHadir: totalTidakHadir,
+                    workingDays: totalWorkingDays
+                }
+            };
+        }
+
+        // Helper function to get working days in a month (excluding weekends)
+        function getWorkingDaysInMonth(startDate, endDate) {
+            let workingDays = 0;
+            const currentDate = new Date(startDate);
+            
+            while (currentDate <= endDate) {
+                const dayOfWeek = currentDate.getDay();
+                // Count Monday (1) to Friday (5) as working days
+                if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                    workingDays++;
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return workingDays;
+        }
+
+        // Helper function to get teacher name by ID
+        function getGuruNameById(guruId) {
+            if (guruId === 'semua') return 'semua guru';
+            const index = parseInt(guruId.replace('guru', ''));
+            return dataGuru[index]?.nama || 'Guru tidak ditemukan';
+        }
+
+        // Update teacher recap display
+        function updateGuruRekapDisplay(rekapData, guruFilter, bulanNama, tahun) {
+            // Update summary cards
+            const summaryCards = document.querySelector('#hasil-rekap-guru .grid');
+            summaryCards.innerHTML = `
+                <div class="bg-gray-50 rounded-lg p-3 text-center">
+                    <div class="text-xl font-bold text-gray-800">${rekapData.summary.totalGuru}</div>
+                    <div class="text-xs text-gray-600">Total Guru</div>
+                </div>
+                <div class="bg-green-50 rounded-lg p-3 text-center">
+                    <div class="text-xl font-bold text-green-600">${rekapData.summary.totalHadir}</div>
+                    <div class="text-xs text-gray-600">Total Hadir</div>
+                </div>
+                <div class="bg-yellow-50 rounded-lg p-3 text-center">
+                    <div class="text-xl font-bold text-yellow-600">${rekapData.summary.totalIzin}</div>
+                    <div class="text-xs text-gray-600">Total Izin</div>
+                </div>
+                <div class="bg-red-50 rounded-lg p-3 text-center">
+                    <div class="text-xl font-bold text-red-600">${rekapData.summary.totalTidakHadir}</div>
+                    <div class="text-xs text-gray-600">Total Tidak Hadir</div>
+                </div>
+            `;
+            
+            // Update table
+            const tbody = document.querySelector('#hasil-rekap-guru tbody');
+            tbody.innerHTML = '';
+            
+            if (rekapData.guru.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="p-6 text-center text-gray-500">
+                            <i class="fas fa-calendar-times text-3xl mb-2 text-gray-300"></i>
+                            <p>Belum ada data absensi guru untuk ${bulanNama} ${tahun}</p>
+                            <p class="text-sm">Data akan muncul setelah guru melakukan absensi</p>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                rekapData.guru.forEach(guru => {
+                    const row = `
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 border-b">${guru.nama}</td>
+                            <td class="p-3 text-center border-b text-green-600 font-semibold">${guru.hadir}</td>
+                            <td class="p-3 text-center border-b text-yellow-600">${guru.izin}</td>
+                            <td class="p-3 text-center border-b text-red-600">${guru.tidakHadir}</td>
+                            <td class="p-3 text-center border-b font-semibold">${guru.persentase}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            }
+        }
+
+        // Update student recap display
+        function updateSiswaRekapDisplay(rekapData, kelasFilter, bulanNama, tahun) {
+            // Update summary cards
+            const summaryCards = document.querySelector('#hasil-rekap-siswa .grid');
+            summaryCards.innerHTML = `
+                <div class="bg-gray-50 rounded-lg p-3 text-center">
+                    <div class="text-xl font-bold text-gray-800">${rekapData.summary.totalSiswa}</div>
+                    <div class="text-xs text-gray-600">Total Siswa</div>
+                </div>
+                <div class="bg-green-50 rounded-lg p-3 text-center">
+                    <div class="text-xl font-bold text-green-600">${rekapData.summary.totalHadir}</div>
+                    <div class="text-xs text-gray-600">Total Hadir</div>
+                </div>
+                <div class="bg-yellow-50 rounded-lg p-3 text-center">
+                    <div class="text-xl font-bold text-yellow-600">${rekapData.summary.totalSakitIzin}</div>
+                    <div class="text-xs text-gray-600">Total Sakit/Izin</div>
+                </div>
+                <div class="bg-red-50 rounded-lg p-3 text-center">
+                    <div class="text-xl font-bold text-red-600">${rekapData.summary.totalTidakHadir}</div>
+                    <div class="text-xs text-gray-600">Total Tidak Hadir</div>
+                </div>
+            `;
+            
+            // Update table
+            const tbody = document.querySelector('#hasil-rekap-siswa tbody');
+            tbody.innerHTML = '';
+            
+            if (rekapData.kelas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="p-6 text-center text-gray-500">
+                            <i class="fas fa-calendar-times text-3xl mb-2 text-gray-300"></i>
+                            <p>Belum ada data absensi siswa untuk ${bulanNama} ${tahun}</p>
+                            <p class="text-sm">Data akan muncul setelah melakukan absensi siswa</p>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                rekapData.kelas.forEach(kelas => {
+                    const row = `
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 border-b font-semibold">${kelas.nama}</td>
+                            <td class="p-3 text-center border-b">${kelas.jumlahSiswa}</td>
+                            <td class="p-3 text-center border-b text-green-600 font-semibold">${kelas.hadir}</td>
+                            <td class="p-3 text-center border-b text-yellow-600">${kelas.sakitIzin}</td>
+                            <td class="p-3 text-center border-b text-red-600">${kelas.tidakHadir}</td>
+                            <td class="p-3 text-center border-b font-semibold">${kelas.persentase}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            }
+        }
+
+        // Student attendance functions
+        document.getElementById('select-kelas').addEventListener('change', function() {
+            const kelas = this.value;
+            const daftarSiswa = document.getElementById('daftar-siswa');
+            
+            if (kelas) {
+                daftarSiswa.classList.remove('hidden');
+                loadSiswaByKelas(kelas);
+            } else {
+                daftarSiswa.classList.add('hidden');
+            }
+        });
+
+        function loadSiswaByKelas(kelas) {
+            const container = document.querySelector('#daftar-siswa .space-y-1\\.5');
+            container.innerHTML = '';
+            
+            // Use kelas value directly since we fixed the dropdown mapping
+            const kelasNama = kelas;
+            
+            // Filter students by selected class from actual data
+            const siswaKelas = dataSiswa.filter(siswa => siswa.kelas === kelasNama);
+            
+            if (siswaKelas.length > 0) {
+                siswaKelas.forEach((siswa, index) => {
+                    const siswaItem = document.createElement('div');
+                    siswaItem.className = 'flex items-center justify-between p-3 border border-gray-300 rounded-lg hover:bg-gray-50';
+                    siswaItem.setAttribute('data-siswa', siswa.nama);
+                    siswaItem.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="mr-3">
+                                <div class="font-medium">${siswa.nama}</div>
+                                <div class="text-xs text-gray-500">NISN: ${siswa.nisn}</div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-1">
+                            <button type="button" onclick="markHadir('${siswa.nama}')" class="status-btn bg-green-500 text-white text-xs px-2 py-1 rounded hover:bg-green-600" data-status="hadir">
+                                <i class="fas fa-check"></i> Hadir
+                            </button>
+                            <button type="button" onclick="markSakit('${siswa.nama}')" class="status-btn bg-gray-300 text-gray-600 text-xs px-2 py-1 rounded hover:bg-yellow-500 hover:text-white" data-status="sakit">
+                                <i class="fas fa-thermometer-half"></i> Sakit
+                            </button>
+                            <button type="button" onclick="markIzin('${siswa.nama}')" class="status-btn bg-gray-300 text-gray-600 text-xs px-2 py-1 rounded hover:bg-blue-500 hover:text-white" data-status="izin">
+                                <i class="fas fa-hand-paper"></i> Izin
+                            </button>
+                            <button type="button" onclick="markAlpha('${siswa.nama}')" class="status-btn bg-gray-300 text-gray-600 text-xs px-2 py-1 rounded hover:bg-red-500 hover:text-white" data-status="alpha">
+                                <i class="fas fa-times"></i> Alpha
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(siswaItem);
+                });
+                
+                // Show total students count
+                const totalInfo = document.createElement('div');
+                totalInfo.className = 'text-sm text-gray-600 p-2 bg-blue-50 rounded-lg border-l-4 border-blue-400';
+                totalInfo.innerHTML = `<i class="fas fa-info-circle mr-2"></i>Total siswa kelas ${kelasNama}: ${siswaKelas.length} orang`;
+                container.appendChild(totalInfo);
+            } else {
+                // Show message if no students found
+                const noDataMsg = document.createElement('div');
+                noDataMsg.className = 'text-center p-4 text-gray-500';
+                noDataMsg.innerHTML = `
+                    <i class="fas fa-users text-3xl mb-2 text-gray-300"></i>
+                    <p>Belum ada data siswa untuk kelas ${kelasNama}</p>
+                    <p class="text-sm">Silakan tambahkan data siswa di menu Admin > Data Siswa</p>
+                `;
+                container.appendChild(noDataMsg);
+            }
+        }
+
+        // Notification system
+        function showNotification(type, title, message, duration = 5000) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 translate-x-full`;
+            
+            let bgColor, iconColor, icon;
+            switch(type) {
+                case 'success':
+                    bgColor = 'bg-green-50 border border-green-200';
+                    iconColor = 'text-green-500';
+                    icon = 'fas fa-check-circle';
+                    break;
+                case 'error':
+                    bgColor = 'bg-red-50 border border-red-200';
+                    iconColor = 'text-red-500';
+                    icon = 'fas fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    bgColor = 'bg-yellow-50 border border-yellow-200';
+                    iconColor = 'text-yellow-500';
+                    icon = 'fas fa-exclamation-triangle';
+                    break;
+                default:
+                    bgColor = 'bg-blue-50 border border-blue-200';
+                    iconColor = 'text-blue-500';
+                    icon = 'fas fa-info-circle';
+            }
+            
+            notification.className += ` ${bgColor}`;
+            notification.innerHTML = `
+                <div class="flex items-start">
+                    <i class="${icon} ${iconColor} mr-3 mt-0.5"></i>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-800 text-sm">${title}</h4>
+                        <p class="text-gray-600 text-xs mt-1">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600 ml-2">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Auto remove
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        // Updated attendance marking functions
+        function markHadir(nama) {
+            updateStudentStatus(nama, 'hadir');
+            showNotification('success', 'Absensi Berhasil', `${nama} ditandai HADIR`);
+        }
+
+        function markSakit(nama) {
+            updateStudentStatus(nama, 'sakit');
+            showNotification('warning', 'Absensi Berhasil', `${nama} ditandai SAKIT`);
+        }
+
+        function markIzin(nama) {
+            updateStudentStatus(nama, 'izin');
+            showNotification('info', 'Absensi Berhasil', `${nama} ditandai IZIN`);
+        }
+
+        function markAlpha(nama) {
+            updateStudentStatus(nama, 'alpha');
+            showNotification('error', 'Absensi Berhasil', `${nama} ditandai ALPHA (Tidak Hadir)`);
+        }
+
+        function updateStudentStatus(nama, status) {
+            const siswaElement = document.querySelector(`[data-siswa="${nama}"]`);
+            if (!siswaElement) return;
+            
+            // Reset all buttons
+            const buttons = siswaElement.querySelectorAll('.status-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-green-500', 'bg-yellow-500', 'bg-blue-500', 'bg-red-500', 'text-white');
+                btn.classList.add('bg-gray-300', 'text-gray-600');
+            });
+            
+            // Highlight selected status
+            const activeButton = siswaElement.querySelector(`[data-status="${status}"]`);
+            if (activeButton) {
+                activeButton.classList.remove('bg-gray-300', 'text-gray-600');
+                switch(status) {
+                    case 'hadir':
+                        activeButton.classList.add('bg-green-500', 'text-white');
+                        siswaElement.style.backgroundColor = '#f0fdf4';
+                        break;
+                    case 'sakit':
+                        activeButton.classList.add('bg-yellow-500', 'text-white');
+                        siswaElement.style.backgroundColor = '#fefce8';
+                        break;
+                    case 'izin':
+                        activeButton.classList.add('bg-blue-500', 'text-white');
+                        siswaElement.style.backgroundColor = '#eff6ff';
+                        break;
+                    case 'alpha':
+                        activeButton.classList.add('bg-red-500', 'text-white');
+                        siswaElement.style.backgroundColor = '#fef2f2';
+                        break;
+                }
+            }
+            
+            siswaElement.setAttribute('data-status', status);
+        }
+
+        // Quick action functions
+        function markAllHadir() {
+            const siswaElements = document.querySelectorAll('[data-siswa]');
+            let count = 0;
+            siswaElements.forEach(element => {
+                const nama = element.getAttribute('data-siswa');
+                updateStudentStatus(nama, 'hadir');
+                count++;
+            });
+            showNotification('success', 'Absensi Massal Berhasil', `${count} siswa ditandai HADIR semua`);
+        }
+
+        function markAllAlpha() {
+            if (!confirm('Yakin ingin menandai semua siswa ALPHA (Tidak Hadir)?')) return;
+            
+            const siswaElements = document.querySelectorAll('[data-siswa]');
+            let count = 0;
+            siswaElements.forEach(element => {
+                const nama = element.getAttribute('data-siswa');
+                updateStudentStatus(nama, 'alpha');
+                count++;
+            });
+            showNotification('warning', 'Absensi Massal Berhasil', `${count} siswa ditandai ALPHA semua`);
+        }
+
+        // Function to get selected guru piket names
+        function getGuruPiketNames() {
+            const guruPiketSelects = document.querySelectorAll('.guru-piket-select');
+            const guruPiketNames = [];
+            
+            guruPiketSelects.forEach(select => {
+                if (select.value) {
+                    const selectedOption = select.selectedOptions[0];
+                    if (selectedOption && selectedOption.textContent !== selectedOption.value) {
+                        // Extract guru name from "Nama Guru - Mata Pelajaran" format
+                        const guruName = selectedOption.textContent.split(' - ')[0];
+                        guruPiketNames.push(guruName);
+                    }
+                }
+            });
+            
+            return guruPiketNames.join(', ') || 'Tidak ada guru piket';
+        }
+
+        // New automatic notification function - sends to ALL students (hadir, sakit, izin, alpha)
+        function kirimNotifikasiOtomatis(semuaSiswa, kelas) {
+            if (!whatsappConfig.token) {
+                showNotification('warning', 'Konfigurasi WhatsApp Belum Diatur', 'Notifikasi tidak dikirim. Silakan atur konfigurasi di menu Admin > API WhatsApp');
+                addWhatsAppLog('warning', 'Pengiriman dibatalkan: Konfigurasi WhatsApp belum diatur');
+                return;
+            }
+            
+            if (semuaSiswa.length === 0) {
+                return;
+            }
+            
+            // Show detailed information about what will be sent
+            const statusCount = {
+                hadir: semuaSiswa.filter(s => s.status === 'hadir').length,
+                sakit: semuaSiswa.filter(s => s.status === 'sakit').length,
+                izin: semuaSiswa.filter(s => s.status === 'izin').length,
+                alpha: semuaSiswa.filter(s => s.status === 'alpha').length
+            };
+            
+            let infoMessage = `Mengirim notifikasi WhatsApp untuk ${semuaSiswa.length} siswa:\n`;
+            if (statusCount.hadir > 0) infoMessage += `✅ ${statusCount.hadir} siswa HADIR\n`;
+            if (statusCount.sakit > 0) infoMessage += `🤒 ${statusCount.sakit} siswa SAKIT\n`;
+            if (statusCount.izin > 0) infoMessage += `🖐️ ${statusCount.izin} siswa IZIN\n`;
+            if (statusCount.alpha > 0) infoMessage += `❌ ${statusCount.alpha} siswa ALPHA`;
+            
+            showNotification('info', 'Mengirim Notifikasi WhatsApp', infoMessage);
+            
+            // Simulate sending WhatsApp messages
+            let successCount = 0;
+            let failCount = 0;
+            let noPhoneCount = 0;
+            
+            semuaSiswa.forEach((siswa, index) => {
+                setTimeout(() => {
+                    // Find student data for phone number
+                    const dataSiswaItem = dataSiswa.find(s => s.nama === siswa.nama);
+                    
+                    if (dataSiswaItem && dataSiswaItem.hpOrtu) {
+                        // Create personalized message
+                        const tanggalHariIni = new Date().toLocaleDateString('id-ID', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        
+                        const statusText = {
+                            'hadir': 'HADIR',
+                            'sakit': 'SAKIT',
+                            'izin': 'IZIN', 
+                            'alpha': 'ALFA'
+                        };
+                        
+                        let message = whatsappConfig.template
+                            .replace('{nama_ortu}', dataSiswaItem.namaOrtu || 'Bapak/Ibu')
+                            .replace('{nama_siswa}', siswa.nama)
+                            .replace('{kelas}', kelas)
+                            .replace('{tanggal}', tanggalHariIni)
+                            .replace('{status_absensi}', statusText[siswa.status])
+                            .replace('{guru_piket}', getGuruPiketNames())
+                            .replace('{nama_sekolah}', 'SMP Negeri 3 Lempuing Jaya');
+                        
+                        // Simulate API call success/failure
+                        const success = Math.random() > 0.15; // 85% success rate
+                        
+                        if (success) {
+                            successCount++;
+                            addWhatsAppLog('success', `✅ ${siswa.nama} (${statusText[siswa.status]}) → ${dataSiswaItem.hpOrtu}`);
+                        } else {
+                            failCount++;
+                            addWhatsAppLog('error', `❌ Gagal kirim ke ${siswa.nama} - Error API`);
+                        }
+                    } else {
+                        noPhoneCount++;
+                        failCount++;
+                        addWhatsAppLog('error', `❌ ${siswa.nama} - Tidak ada nomor HP orang tua`);
+                    }
+                    
+                    // Show final result after all messages processed
+                    if (index === semuaSiswa.length - 1) {
+                        setTimeout(() => {
+                            const totalSent = successCount;
+                            const totalFailed = failCount;
+                            
+                            if (totalSent > 0) {
+                                showNotification('success', 'Notifikasi WhatsApp Terkirim!', 
+                                    `✅ ${totalSent} berhasil dikirim\n❌ ${totalFailed} gagal${noPhoneCount > 0 ? `\n📞 ${noPhoneCount} tanpa nomor HP` : ''}`);
+                                showWhatsAppStatus('success', `${totalSent} dari ${semuaSiswa.length} notifikasi berhasil dikirim`);
+                            } else {
+                                showNotification('error', 'Pengiriman Gagal', 'Tidak ada notifikasi yang berhasil dikirim');
+                                showWhatsAppStatus('error', 'Semua pengiriman gagal');
+                            }
+                        }, 500);
+                    }
+                }, index * 1200); // Delay 1.2 seconds between messages
+            });
+            
+            addWhatsAppLog('info', `🚀 Memulai pengiriman ${semuaSiswa.length} notifikasi WhatsApp untuk kelas ${kelas}`);
+        }
+
+        // Keep the old function for manual use (if needed elsewhere)
+        function kirimNotifikasiWA() {
+            if (!whatsappConfig.token) {
+                showNotification('error', 'Konfigurasi WhatsApp Belum Diatur', 'Silakan ke menu Admin > API WhatsApp untuk mengatur konfigurasi');
+                return;
+            }
+            
+            const kelas = document.getElementById('select-kelas').value;
+            if (!kelas) {
+                showNotification('warning', 'Pilih Kelas', 'Pilih kelas terlebih dahulu sebelum mengirim notifikasi');
+                return;
+            }
+            
+            // Get students with non-hadir status
+            const siswaAbsen = [];
+            const siswaElements = document.querySelectorAll('[data-siswa]');
+            
+            siswaElements.forEach(element => {
+                const nama = element.getAttribute('data-siswa');
+                const status = element.getAttribute('data-status');
+                
+                if (status && status !== 'hadir') {
+                    siswaAbsen.push({nama: nama, status: status});
+                }
+            });
+            
+            if (siswaAbsen.length === 0) {
+                showNotification('info', 'Semua Siswa Hadir', 'Tidak ada notifikasi yang perlu dikirim karena semua siswa hadir');
+                return;
+            }
+            
+            // Use the automatic notification function
+            kirimNotifikasiOtomatis(siswaAbsen, kelas);
+        }
+
+        // Data Management
+        let dataGuru = [];
+
+        // Teacher attendance tracking
+        let absensiGuru = [
+            // Format: {nama: 'Nama Guru', tanggal: 'YYYY-MM-DD', datang: 'HH:MM', pulang: 'HH:MM', status: 'hadir/izin'}
+        ];
+
+        let dataSiswa = [];
+
+        let dataKelas = [];
+
+        // Form toggle functions
+        function toggleFormGuru() {
+            const form = document.getElementById('form-guru');
+            form.classList.toggle('hidden');
+        }
+
+        function toggleFormSiswa() {
+            const form = document.getElementById('form-siswa');
+            form.classList.toggle('hidden');
+        }
+
+        function toggleFormKelas() {
+            const form = document.getElementById('form-kelas');
+            form.classList.toggle('hidden');
+        }
+
+        function cancelFormGuru() {
+            document.getElementById('form-guru').classList.add('hidden');
+            document.getElementById('form-input-guru').reset();
+        }
+
+        function cancelFormSiswa() {
+            document.getElementById('form-siswa').classList.add('hidden');
+            document.getElementById('form-input-siswa').reset();
+        }
+
+        function cancelFormKelas() {
+            document.getElementById('form-kelas').classList.add('hidden');
+            document.getElementById('form-input-kelas').reset();
+        }
+
+        // CRUD functions for Guru
+        function editGuru(index) {
+            const guru = dataGuru[index];
+            document.getElementById('nama-guru').value = guru.nama;
+            document.getElementById('nip-guru').value = guru.nip;
+            document.getElementById('email-guru').value = guru.email;
+            document.getElementById('telp-guru').value = guru.telp;
+            document.getElementById('mapel-guru').value = guru.mapel;
+            document.getElementById('form-guru').classList.remove('hidden');
+        }
+
+        function hapusGuru(index) {
+            if (confirm('Yakin ingin menghapus data guru ini?')) {
+                dataGuru.splice(index, 1);
+                updateTabelGuru();
+                updateAllDropdowns();
+                alert('Data guru berhasil dihapus!');
+            }
+        }
+
+        // CRUD functions for Siswa
+        function editSiswa(index) {
+            const siswa = dataSiswa[index];
+            document.getElementById('nama-siswa').value = siswa.nama;
+            document.getElementById('nisn-siswa').value = siswa.nisn;
+            document.getElementById('kelas-siswa').value = siswa.kelas;
+            document.getElementById('nama-ortu').value = siswa.namaOrtu;
+            document.getElementById('hp-ortu').value = siswa.hpOrtu;
+            document.getElementById('form-siswa').classList.remove('hidden');
+        }
+
+        function hapusSiswa(index) {
+            if (confirm('Yakin ingin menghapus data siswa ini?')) {
+                dataSiswa.splice(index, 1);
+                updateTabelSiswa();
+                updateJumlahSiswaPerKelas();
+                alert('Data siswa berhasil dihapus!');
+            }
+        }
+
+        // CRUD functions for Kelas
+        function editKelas(index) {
+            const kelas = dataKelas[index];
+            document.getElementById('nama-kelas').value = kelas.nama;
+            document.getElementById('wali-kelas').value = kelas.waliKelas;
+            document.getElementById('form-kelas').classList.remove('hidden');
+        }
+
+        function hapusKelas(index) {
+            const namaKelas = dataKelas[index].nama;
+            const siswaKelas = dataSiswa.filter(siswa => siswa.kelas === namaKelas);
+            
+            if (siswaKelas.length > 0) {
+                if (!confirm(`Kelas ${namaKelas} masih memiliki ${siswaKelas.length} siswa. Yakin ingin menghapus kelas ini? Data siswa akan tetap ada tapi tidak memiliki kelas.`)) {
+                    return;
+                }
+            }
+            
+            if (confirm(`Yakin ingin menghapus kelas ${namaKelas}?`)) {
+                dataKelas.splice(index, 1);
+                updateTabelKelas();
+                updateAllDropdowns();
+                alert('Kelas berhasil dihapus!');
+            }
+        }
+
+        // Update table functions
+        function updateTabelGuru() {
+            const tbody = document.getElementById('tabel-guru');
+            tbody.innerHTML = '';
+            dataGuru.forEach((guru, index) => {
+                const row = `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-3 border-b">${guru.nama}</td>
+                        <td class="p-3 border-b">${guru.nip}</td>
+                        <td class="p-3 border-b">${guru.mapel}</td>
+                        <td class="p-3 border-b">${guru.email}</td>
+                        <td class="p-3 border-b">${guru.telp}</td>
+                        <td class="p-3 border-b text-center">
+                            <button onclick="editGuru(${index})" class="text-blue-600 hover:text-blue-800 mr-2">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="hapusGuru(${index})" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function updateTabelSiswa() {
+            const tbody = document.getElementById('tabel-siswa');
+            tbody.innerHTML = '';
+            dataSiswa.forEach((siswa, index) => {
+                const row = `
+                    <tr class="hover:bg-gray-50" data-kelas="${siswa.kelas}">
+                        <td class="p-3 border-b">${siswa.nama}</td>
+                        <td class="p-3 border-b">${siswa.nisn}</td>
+                        <td class="p-3 border-b">${siswa.kelas}</td>
+                        <td class="p-3 border-b">${siswa.namaOrtu}</td>
+                        <td class="p-3 border-b">${siswa.hpOrtu}</td>
+                        <td class="p-3 border-b text-center">
+                            <button onclick="editSiswa(${index})" class="text-blue-600 hover:text-blue-800 mr-2">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="hapusSiswa(${index})" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function updateTabelKelas() {
+            const tbody = document.getElementById('tabel-kelas');
+            tbody.innerHTML = '';
+            dataKelas.forEach((kelas, index) => {
+                const row = `
+                    <tr class="hover:bg-gray-50" data-kelas="${kelas.nama}">
+                        <td class="p-3 border-b font-semibold">${kelas.nama}</td>
+                        <td class="p-3 border-b">${kelas.waliKelas}</td>
+                        <td class="p-3 border-b text-center">${kelas.jumlahSiswa}</td>
+                        <td class="p-3 border-b text-center">
+                            <button onclick="editKelas(${index})" class="text-blue-600 hover:text-blue-800 mr-2">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="hapusKelas(${index})" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Comprehensive dropdown update function
+        function updateAllDropdowns() {
+            updateGuruAbsenDropdown();
+            updateGuruPiketDropdown();
+            updateKelasDropdown();
+            updateWaliKelasDropdown();
+            updateFilterDropdowns();
+        }
+
+        // Update dropdown for teacher attendance
+        function updateGuruAbsenDropdown() {
+            const select = document.getElementById('dropdown-guru-absen');
+            if (select) {
+                const currentValue = select.value;
+                const options = select.querySelectorAll('option:not([value=""])');
+                options.forEach(option => option.remove());
+                
+                dataGuru.forEach((guru, index) => {
+                    const option = document.createElement('option');
+                    option.value = `guru${index}`;
+                    option.textContent = guru.nama;
+                    select.appendChild(option);
+                });
+                
+                if (currentValue) select.value = currentValue;
+            }
+        }
+
+        // Update guru piket dropdown
+        function updateGuruPiketDropdown() {
+            const selects = document.querySelectorAll('.guru-piket-select');
+            selects.forEach((select, index) => {
+                const currentValue = select.value;
+                const options = select.querySelectorAll('option:not([value=""])');
+                options.forEach(option => option.remove());
+                
+                dataGuru.forEach((guru, guruIndex) => {
+                    const option = document.createElement('option');
+                    option.value = `guru${guruIndex}`;
+                    option.textContent = `${guru.nama} - ${guru.mapel}`;
+                    select.appendChild(option);
+                });
+                
+                if (currentValue) select.value = currentValue;
+            });
+        }
+
+        // Guru piket management functions
+        function addGuruPiket() {
+            const container = document.getElementById('guru-piket-container');
+            const currentItems = container.querySelectorAll('.guru-piket-item');
+            
+            if (currentItems.length >= 3) {
+                showNotification('warning', 'Maksimal Guru Piket', 'Maksimal 3 guru piket per hari');
+                return;
+            }
+            
+            const newItem = document.createElement('div');
+            newItem.className = 'guru-piket-item flex items-center space-x-2';
+            newItem.innerHTML = `
+                <select class="guru-piket-select flex-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                    <option value="">Pilih Guru Piket ${currentItems.length + 1}</option>
+                </select>
+                <button type="button" onclick="removeGuruPiket(this)" class="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600">
+                    <i class="fas fa-minus"></i>
+                </button>
+            `;
+            
+            container.appendChild(newItem);
+            updateGuruPiketDropdown();
+            showNotification('success', 'Guru Piket Ditambah', `Slot guru piket ${currentItems.length + 1} berhasil ditambahkan`);
+        }
+
+        function removeGuruPiket(button) {
+            const container = document.getElementById('guru-piket-container');
+            const currentItems = container.querySelectorAll('.guru-piket-item');
+            
+            if (currentItems.length <= 1) {
+                showNotification('warning', 'Minimal Guru Piket', 'Minimal 1 guru piket harus ada');
+                return;
+            }
+            
+            button.parentElement.remove();
+            
+            // Update numbering
+            const remainingItems = container.querySelectorAll('.guru-piket-item');
+            remainingItems.forEach((item, index) => {
+                const select = item.querySelector('select');
+                const placeholder = select.querySelector('option[value=""]');
+                if (placeholder) {
+                    placeholder.textContent = `Pilih Guru Piket ${index + 1}`;
+                }
+            });
+            
+            showNotification('info', 'Guru Piket Dihapus', 'Slot guru piket berhasil dihapus');
+        }
+
+        // Update dropdown for class selection
+        function updateKelasDropdown() {
+            const selects = document.querySelectorAll('#select-kelas, #kelas-siswa');
+            selects.forEach(select => {
+                const currentValue = select.value;
+                const options = select.querySelectorAll('option:not([value=""])');
+                options.forEach(option => option.remove());
+                
+                dataKelas.forEach(kelas => {
+                    const option = document.createElement('option');
+                    // Use class name directly as value for better matching
+                    option.value = kelas.nama;
+                    option.textContent = kelas.nama;
+                    select.appendChild(option);
+                });
+                
+                if (currentValue) select.value = currentValue;
+            });
+        }
+
+        // Update wali kelas dropdown
+        function updateWaliKelasDropdown() {
+            const select = document.getElementById('wali-kelas');
+            if (select) {
+                const currentValue = select.value;
+                const options = select.querySelectorAll('option:not([value=""])');
+                options.forEach(option => option.remove());
+                
+                dataGuru.forEach(guru => {
+                    const option = document.createElement('option');
+                    option.value = guru.nama;
+                    option.textContent = guru.nama;
+                    select.appendChild(option);
+                });
+                
+                if (currentValue) select.value = currentValue;
+            }
+        }
+
+        // Update filter dropdowns
+        function updateFilterDropdowns() {
+            // Update filter guru dropdown
+            const filterGuru = document.getElementById('filter-guru');
+            if (filterGuru) {
+                const currentValue = filterGuru.value;
+                const options = filterGuru.querySelectorAll('option:not([value=""], [value="semua"])');
+                options.forEach(option => option.remove());
+                
+                dataGuru.forEach((guru, index) => {
+                    const option = document.createElement('option');
+                    option.value = `guru${index}`;
+                    option.textContent = guru.nama;
+                    filterGuru.appendChild(option);
+                });
+                
+                if (currentValue) filterGuru.value = currentValue;
+            }
+
+            // Update filter kelas dropdowns
+            const filterKelasSelects = document.querySelectorAll('#filter-kelas, #filter-kelas-siswa, #filter-kelas-admin');
+            filterKelasSelects.forEach(select => {
+                const currentValue = select.value;
+                const options = select.querySelectorAll('option:not([value=""], [value="semua"])');
+                options.forEach(option => option.remove());
+                
+                dataKelas.forEach(kelas => {
+                    const option = document.createElement('option');
+                    option.value = kelas.nama;
+                    option.textContent = kelas.nama;
+                    select.appendChild(option);
+                });
+                
+                if (currentValue) select.value = currentValue;
+            });
+        }
+
+        // Update student count per class
+        function updateJumlahSiswaPerKelas() {
+            dataKelas.forEach(kelas => {
+                const jumlahSiswa = dataSiswa.filter(siswa => siswa.kelas === kelas.nama).length;
+                kelas.jumlahSiswa = jumlahSiswa;
+            });
+            updateTabelKelas();
+        }
+
+        // Filter functions
+        function filterSiswaByKelas() {
+            const filter = document.getElementById('filter-kelas-siswa').value;
+            const rows = document.querySelectorAll('#tabel-siswa tr[data-kelas]');
+            
+            rows.forEach(row => {
+                if (filter === '' || row.dataset.kelas === filter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterKelasByName() {
+            const filter = document.getElementById('filter-kelas-admin').value;
+            const rows = document.querySelectorAll('#tabel-kelas tr[data-kelas]');
+            
+            rows.forEach(row => {
+                if (filter === '' || row.dataset.kelas === filter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Helper function to check duplicate attendance
+        function checkDuplicateAttendance(namaGuru, tanggal, jenis) {
+            return absensiGuru.find(record => 
+                record.nama === namaGuru && 
+                record.tanggal === tanggal && 
+                record[jenis] !== null
+            );
+        }
+
+        // Helper function to get today's date
+        function getTodayDate() {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        // Check and display teacher attendance status
+        function checkGuruAttendanceStatus() {
+            const guruSelect = document.getElementById('dropdown-guru-absen');
+            const statusDiv = document.getElementById('guru-attendance-status');
+            const attendanceInfo = document.getElementById('attendance-info');
+            
+            const namaGuru = guruSelect.selectedOptions[0]?.text || '';
+            const tanggalHariIni = document.getElementById('tanggal-guru').value || getTodayDate();
+            
+            if (!namaGuru || namaGuru === 'Pilih Nama Guru') {
+                statusDiv.classList.add('hidden');
+                return;
+            }
+            
+            // Find today's attendance record for this teacher
+            const todayRecord = absensiGuru.find(record => 
+                record.nama === namaGuru && record.tanggal === tanggalHariIni
+            );
+            
+            statusDiv.classList.remove('hidden');
+            
+            if (!todayRecord) {
+                // No attendance record yet
+                statusDiv.className = 'mb-3 p-3 rounded-lg border border-gray-300 bg-gray-50';
+                attendanceInfo.innerHTML = `
+                    <div class="flex items-center text-gray-600">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>Belum ada absensi untuk tanggal ${new Date(tanggalHariIni).toLocaleDateString('id-ID')}</span>
+                    </div>
+                `;
+            } else {
+                // Has attendance record
+                statusDiv.className = 'mb-3 p-3 rounded-lg border border-green-300 bg-green-50';
+                
+                let statusHtml = '';
+                
+                if (todayRecord.datang) {
+                    statusHtml += `
+                        <div class="flex items-center text-green-700">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            <span><strong>Datang:</strong> ${todayRecord.datang} (${todayRecord.status.toUpperCase()})</span>
+                        </div>
+                    `;
+                }
+                
+                if (todayRecord.pulang) {
+                    statusHtml += `
+                        <div class="flex items-center text-green-700">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            <span><strong>Pulang:</strong> ${todayRecord.pulang} (${todayRecord.status.toUpperCase()})</span>
+                        </div>
+                    `;
+                }
+                
+                if (!todayRecord.datang && !todayRecord.pulang) {
+                    statusHtml = `
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            <span>Data absensi tidak lengkap</span>
+                        </div>
+                    `;
+                }
+                
+                // Add completion status
+                if (todayRecord.datang && todayRecord.pulang) {
+                    statusHtml += `
+                        <div class="flex items-center text-blue-700 mt-2 pt-2 border-t border-green-200">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            <span class="font-medium">Absensi hari ini sudah lengkap</span>
+                        </div>
+                    `;
+                } else if (todayRecord.datang && !todayRecord.pulang) {
+                    statusHtml += `
+                        <div class="flex items-center text-orange-600 mt-2 pt-2 border-t border-green-200">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="font-medium">Menunggu absensi pulang</span>
+                        </div>
+                    `;
+                } else if (!todayRecord.datang && todayRecord.pulang) {
+                    statusHtml += `
+                        <div class="flex items-center text-red-600 mt-2 pt-2 border-t border-green-200">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            <span class="font-medium">Absensi datang belum tercatat</span>
+                        </div>
+                    `;
+                }
+                
+                attendanceInfo.innerHTML = statusHtml;
+            }
+        }
+
+        // Form submissions
+        // Admin login form
+        document.getElementById('form-login-admin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value;
+            
+            if (!username || !password) {
+                showNotification('warning', 'Data Tidak Lengkap', 'Mohon masukkan username dan password');
+                return;
+            }
+            
+            // Attempt login
+            const loginSuccess = loginAdmin(username, password);
+            
+            if (!loginSuccess) {
+                // Clear password field on failed login
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-password').focus();
+            }
+        });
+
+        document.getElementById('form-absen-guru').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const guruSelect = document.getElementById('dropdown-guru-absen');
+            const namaGuru = guruSelect.selectedOptions[0]?.text || '';
+            const guruValue = guruSelect.value;
+            const status = document.querySelector('input[name="status"]:checked')?.value || '';
+            const jenis = document.querySelector('input[name="jenis"]:checked')?.value || '';
+            const tanggal = document.getElementById('tanggal-guru').value;
+            const waktu = document.getElementById('waktu-guru').value;
+            
+            // Validation
+            if (!namaGuru || namaGuru === 'Pilih Nama Guru' || !status || !jenis || !tanggal || !waktu) {
+                showNotification('warning', 'Data Tidak Lengkap', 'Mohon lengkapi semua field yang diperlukan');
+                return;
+            }
+
+            // Check for duplicate attendance
+            const existingRecord = checkDuplicateAttendance(namaGuru, tanggal, jenis);
+            if (existingRecord) {
+                const jenisText = jenis === 'datang' ? 'kedatangan' : 'kepulangan';
+                const waktuExisting = existingRecord[jenis];
+                showNotification('error', 'Absensi Sudah Ada!', 
+                    `${namaGuru} sudah melakukan absensi ${jenisText} pada ${tanggal} jam ${waktuExisting}`);
+                return;
+            }
+
+            // Find or create attendance record for this teacher and date
+            let attendanceRecord = absensiGuru.find(record => 
+                record.nama === namaGuru && record.tanggal === tanggal
+            );
+
+            if (!attendanceRecord) {
+                attendanceRecord = {
+                    nama: namaGuru,
+                    tanggal: tanggal,
+                    datang: null,
+                    pulang: null,
+                    status: status
+                };
+                absensiGuru.push(attendanceRecord);
+            }
+
+            // Update the specific attendance type
+            attendanceRecord[jenis] = waktu;
+            attendanceRecord.status = status;
+
+            // Success notification with detailed information
+            const jenisText = jenis === 'datang' ? 'Kedatangan' : 'Kepulangan';
+            const statusText = status === 'hadir' ? 'HADIR' : 'IZIN';
+            const tanggalFormatted = new Date(tanggal).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            showNotification('success', 'Absensi Guru Berhasil Disimpan!', 
+                `${namaGuru}\n📅 ${tanggalFormatted}\n🕐 ${jenisText}: ${waktu}\n✅ Status: ${statusText}`);
+
+            // Reset form
+            this.reset();
+            setCurrentTimestamp();
+
+            // Show attendance summary if both datang and pulang are recorded
+            if (attendanceRecord.datang && attendanceRecord.pulang) {
+                setTimeout(() => {
+                    showNotification('info', 'Absensi Lengkap', 
+                        `${namaGuru} - Absensi hari ini sudah lengkap\n🕐 Datang: ${attendanceRecord.datang}\n🕐 Pulang: ${attendanceRecord.pulang}`);
+                }, 2000);
+            }
+        });
+
+        document.getElementById('form-absen-siswa').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const kelas = document.getElementById('select-kelas').value;
+            const guruPiketSelects = document.querySelectorAll('.guru-piket-select');
+            
+            if (!kelas) {
+                showNotification('warning', 'Pilih Kelas', 'Pilih kelas terlebih dahulu');
+                return;
+            }
+            
+            let guruPiketValid = false;
+            guruPiketSelects.forEach(select => {
+                if (select.value) guruPiketValid = true;
+            });
+            
+            if (!guruPiketValid) {
+                showNotification('warning', 'Pilih Guru Piket', 'Pilih minimal 1 guru piket');
+                return;
+            }
+            
+            // Count attendance status and save data
+            const siswaElements = document.querySelectorAll('[data-siswa]');
+            const statusCount = {
+                hadir: 0,
+                sakit: 0,
+                izin: 0,
+                alpha: 0,
+                belumDiisi: 0
+            };
+            
+            const tanggalHariIni = new Date().toISOString().slice(0, 10);
+            const semuaSiswa = []; // Collect ALL students with their status
+            
+            siswaElements.forEach(element => {
+                const namaSiswa = element.getAttribute('data-siswa');
+                const status = element.getAttribute('data-status');
+                
+                if (status) {
+                    statusCount[status]++;
+                    
+                    // Save attendance record
+                    const existingRecord = absensiSiswa.find(record => 
+                        record.nama === namaSiswa && 
+                        record.tanggal === tanggalHariIni && 
+                        record.kelas === kelas
+                    );
+                    
+                    if (existingRecord) {
+                        existingRecord.status = status;
+                    } else {
+                        absensiSiswa.push({
+                            nama: namaSiswa,
+                            kelas: kelas,
+                            tanggal: tanggalHariIni,
+                            status: status
+                        });
+                    }
+                    
+                    // Collect ALL students for WhatsApp notification
+                    semuaSiswa.push({nama: namaSiswa, status: status});
+                } else {
+                    statusCount.belumDiisi++;
+                }
+            });
+            
+            if (statusCount.belumDiisi > 0) {
+                showNotification('warning', 'Absensi Belum Lengkap', `${statusCount.belumDiisi} siswa belum diisi status absensinya`);
+                return;
+            }
+            
+            const totalSiswa = siswaElements.length;
+            showNotification('success', 'Absensi Siswa Berhasil Disimpan!', 
+                `Kelas ${kelas} - ${totalSiswa} siswa\n✅ ${statusCount.hadir} Hadir | 🤒 ${statusCount.sakit} Sakit | 🖐️ ${statusCount.izin} Izin | ❌ ${statusCount.alpha} Alpha`);
+            
+            // Automatically send WhatsApp notifications for ALL students
+            if (semuaSiswa.length > 0) {
+                setTimeout(() => {
+                    kirimNotifikasiOtomatis(semuaSiswa, kelas);
+                }, 1000);
+            }
+            
+            // Reset form
+            document.getElementById('select-kelas').value = '';
+            document.getElementById('daftar-siswa').classList.add('hidden');
+            
+            // Reset guru piket
+            const guruPiketContainer = document.getElementById('guru-piket-container');
+            guruPiketContainer.innerHTML = `
+                <div class="guru-piket-item flex items-center space-x-2">
+                    <select class="guru-piket-select flex-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        <option value="">Pilih Guru Piket 1</option>
+                    </select>
+                    <button type="button" onclick="addGuruPiket()" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            `;
+            updateGuruPiketDropdown();
+        });
+
+        document.getElementById('form-input-guru').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const guru = {
+                nama: document.getElementById('nama-guru').value,
+                nip: document.getElementById('nip-guru').value,
+                mapel: document.getElementById('mapel-guru').value,
+                email: document.getElementById('email-guru').value,
+                telp: document.getElementById('telp-guru').value
+            };
+            dataGuru.push(guru);
+            updateTabelGuru();
+            updateAllDropdowns();
+            cancelFormGuru();
+            alert('Data guru berhasil ditambahkan!');
+        });
+
+        document.getElementById('form-input-siswa').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const siswa = {
+                nama: document.getElementById('nama-siswa').value,
+                nisn: document.getElementById('nisn-siswa').value,
+                kelas: document.getElementById('kelas-siswa').value,
+                namaOrtu: document.getElementById('nama-ortu').value,
+                hpOrtu: document.getElementById('hp-ortu').value
+            };
+            dataSiswa.push(siswa);
+            updateTabelSiswa();
+            updateJumlahSiswaPerKelas();
+            cancelFormSiswa();
+            alert('Data siswa berhasil ditambahkan!');
+        });
+
+        document.getElementById('form-input-kelas').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const kelas = {
+                nama: document.getElementById('nama-kelas').value,
+                waliKelas: document.getElementById('wali-kelas').value,
+                jumlahSiswa: 0
+            };
+            dataKelas.push(kelas);
+            updateTabelKelas();
+            updateAllDropdowns();
+            updateJumlahSiswaPerKelas();
+            cancelFormKelas();
+            alert('Kelas berhasil ditambahkan!');
+        });
+
+        // WhatsApp API Functions
+        let whatsappConfig = {
+            provider: '',
+            endpoint: '',
+            token: '',
+            instance: '',
+            template: '🏫 *SMP Negeri 3 Lempuing Jaya*\n\nAssalamu\'alaikum {nama_ortu},\n\nHari {tanggal} ananda *{nama_siswa}*, {kelas}, telah melakukan absensi dengan status *{status_absensi}*.\n\nGuru Piket: {guru_piket}\n\nTerima kasih atas perhatiannya.\n\n_Salam hormat,_\n_Tim Absensi SMP Negeri 3 Lempuing Jaya_'
+        };
+
+        // Provider presets
+        const providerPresets = {
+            sidobe: {
+                endpoint: 'https://api.sidobe.net/send-message',
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ', 'Content-Type': 'application/json' },
+                bodyFormat: 'json'
+            },
+            fonnte: {
+                endpoint: 'https://api.fonnte.com/send',
+                method: 'POST',
+                headers: { 'Authorization': '' },
+                bodyFormat: 'form'
+            },
+            wablas: {
+                endpoint: 'https://console.wablas.com/api/send-message',
+                method: 'POST',
+                headers: { 'Authorization': '' },
+                bodyFormat: 'json'
+            },
+            woowa: {
+                endpoint: 'https://api.woowa.id/api/v2/send-message',
+                method: 'POST',
+                headers: { 'Authorization': '' },
+                bodyFormat: 'json'
+            }
+        };
+
+        // Auto-fill endpoint when provider is selected
+        document.getElementById('wa-provider').addEventListener('change', function() {
+            const provider = this.value;
+            const endpointInput = document.getElementById('wa-endpoint');
+            
+            if (providerPresets[provider]) {
+                endpointInput.value = providerPresets[provider].endpoint;
+            } else if (provider === 'custom') {
+                endpointInput.value = '';
+                endpointInput.focus();
+            }
+        });
+
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function addWhatsAppLog(type, message) {
+            const logContainer = document.getElementById('wa-log');
+            const timestamp = new Date().toLocaleTimeString('id-ID');
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `text-sm p-2 bg-white rounded border-l-4`;
+            
+            switch(type) {
+                case 'success':
+                    logEntry.classList.add('border-green-400', 'text-green-700');
+                    break;
+                case 'error':
+                    logEntry.classList.add('border-red-400', 'text-red-700');
+                    break;
+                case 'warning':
+                    logEntry.classList.add('border-yellow-400', 'text-yellow-700');
+                    break;
+                default:
+                    logEntry.classList.add('border-blue-400', 'text-gray-600');
+            }
+            
+            logEntry.innerHTML = `
+                <span class="font-medium">${timestamp}:</span> ${message}
+            `;
+            
+            logContainer.insertBefore(logEntry, logContainer.firstChild);
+            
+            // Keep only last 10 logs
+            while (logContainer.children.length > 10) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+
+        function showWhatsAppStatus(type, message) {
+            const statusDiv = document.getElementById('wa-status');
+            const statusIcon = document.getElementById('wa-status-icon');
+            const statusText = document.getElementById('wa-status-text');
+            
+            statusDiv.classList.remove('hidden', 'bg-green-50', 'bg-red-50', 'bg-yellow-50', 'bg-blue-50');
+            statusIcon.classList.remove('text-green-500', 'text-red-500', 'text-yellow-500', 'text-blue-500');
+            
+            switch(type) {
+                case 'success':
+                    statusDiv.classList.add('bg-green-50');
+                    statusIcon.classList.add('text-green-500');
+                    break;
+                case 'error':
+                    statusDiv.classList.add('bg-red-50');
+                    statusIcon.classList.add('text-red-500');
+                    break;
+                case 'warning':
+                    statusDiv.classList.add('bg-yellow-50');
+                    statusIcon.classList.add('text-yellow-500');
+                    break;
+                default:
+                    statusDiv.classList.add('bg-blue-50');
+                    statusIcon.classList.add('text-blue-500');
+            }
+            
+            statusText.textContent = message;
+        }
+
+        async function testWhatsAppConnection() {
+            const provider = document.getElementById('wa-provider').value;
+            const endpoint = document.getElementById('wa-endpoint').value;
+            const token = document.getElementById('wa-token').value;
+            const testNumber = document.getElementById('wa-test-number').value;
+            
+            if (!provider || !endpoint || !token || !testNumber) {
+                showWhatsAppStatus('error', 'Mohon lengkapi semua field yang diperlukan');
+                addWhatsAppLog('error', 'Test gagal: Field tidak lengkap');
+                return;
+            }
+            
+            if (!testNumber.match(/^628\d{8,12}$/)) {
+                showWhatsAppStatus('error', 'Format nomor test tidak valid (gunakan format: 628xxxxxxxxx)');
+                addWhatsAppLog('error', 'Test gagal: Format nomor tidak valid');
+                return;
+            }
+            
+            showWhatsAppStatus('info', 'Sedang menguji koneksi...');
+            addWhatsAppLog('info', 'Memulai test koneksi API WhatsApp');
+            
+            try {
+                // Simulate API test (in real implementation, this would make actual API call)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Simulate success (in real app, check actual API response)
+                const success = Math.random() > 0.3; // 70% success rate for demo
+                
+                if (success) {
+                    showWhatsAppStatus('success', 'Koneksi berhasil! API WhatsApp siap digunakan');
+                    addWhatsAppLog('success', `Test berhasil dikirim ke ${testNumber}`);
+                    
+                    // Save config if test successful
+                    whatsappConfig = {
+                        provider: provider,
+                        endpoint: endpoint,
+                        token: token,
+                        instance: document.getElementById('wa-instance').value,
+                        template: document.getElementById('wa-template').value || whatsappConfig.template
+                    };
+                } else {
+                    throw new Error('API mengembalikan error');
+                }
+                
+            } catch (error) {
+                showWhatsAppStatus('error', 'Test gagal: ' + error.message);
+                addWhatsAppLog('error', `Test gagal: ${error.message}`);
+            }
+        }
+
+        function resetWhatsAppConfig() {
+            if (confirm('Yakin ingin mereset semua konfigurasi WhatsApp?')) {
+                document.getElementById('form-whatsapp-config').reset();
+                document.getElementById('wa-status').classList.add('hidden');
+                whatsappConfig = {
+                    provider: '',
+                    endpoint: '',
+                    token: '',
+                    instance: '',
+                    template: '🏫 *SMP Negeri 3 Lempuing Jaya*\n\nAssalamu\'alaikum {nama_ortu},\n\nHari {tanggal} ananda *{nama_siswa}*, {kelas}, telah melakukan absensi dengan status *{status_absensi}*.\n\nGuru Piket: {guru_piket}\n\nTerima kasih atas perhatiannya.\n\n_Salam hormat,_\n_Tim Absensi SMP Negeri 3 Lempuing Jaya_'
+                };
+                addWhatsAppLog('info', 'Konfigurasi WhatsApp telah direset');
+            }
+        }
+
+        // Form submission for WhatsApp config
+        document.getElementById('form-whatsapp-config').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const provider = document.getElementById('wa-provider').value;
+            const endpoint = document.getElementById('wa-endpoint').value;
+            const token = document.getElementById('wa-token').value;
+            
+            if (!provider || !endpoint || !token) {
+                showWhatsAppStatus('error', 'Mohon lengkapi field yang wajib diisi');
+                addWhatsAppLog('error', 'Penyimpanan gagal: Field tidak lengkap');
+                return;
+            }
+            
+            whatsappConfig = {
+                provider: provider,
+                endpoint: endpoint,
+                token: token,
+                instance: document.getElementById('wa-instance').value,
+                template: document.getElementById('wa-template').value || whatsappConfig.template
+            };
+            
+            showWhatsAppStatus('success', 'Konfigurasi WhatsApp berhasil disimpan');
+            addWhatsAppLog('success', `Konfigurasi ${provider} berhasil disimpan`);
+            
+            alert('Konfigurasi WhatsApp berhasil disimpan!');
+        });
+
+        // Enhanced WhatsApp notification function
+        function kirimNotifikasiWA() {
+            if (!whatsappConfig.token) {
+                alert('Konfigurasi WhatsApp belum diatur. Silakan ke menu Admin > API WhatsApp');
+                return;
+            }
+            
+            const kelas = document.getElementById('select-kelas').value;
+            if (!kelas) {
+                alert('Pilih kelas terlebih dahulu');
+                return;
+            }
+            
+            const siswaAbsen = [];
+            const checkboxes = document.querySelectorAll('input[name="siswa-hadir"]:not(:checked)');
+            
+            checkboxes.forEach(checkbox => {
+                siswaAbsen.push(checkbox.value);
+            });
+            
+            if (siswaAbsen.length === 0) {
+                alert('Semua siswa hadir, tidak ada notifikasi yang perlu dikirim');
+                return;
+            }
+            
+            // Simulate sending WhatsApp messages
+            let successCount = 0;
+            let failCount = 0;
+            
+            siswaAbsen.forEach((namaSiswa, index) => {
+                setTimeout(() => {
+                    // Simulate API call success/failure
+                    const success = Math.random() > 0.2; // 80% success rate
+                    
+                    if (success) {
+                        successCount++;
+                        addWhatsAppLog('success', `Notifikasi terkirim untuk ${namaSiswa}`);
+                    } else {
+                        failCount++;
+                        addWhatsAppLog('error', `Gagal mengirim notifikasi untuk ${namaSiswa}`);
+                    }
+                    
+                    // Show final result after all messages processed
+                    if (index === siswaAbsen.length - 1) {
+                        setTimeout(() => {
+                            alert(`Notifikasi WhatsApp selesai dikirim!\nBerhasil: ${successCount}\nGagal: ${failCount}`);
+                            if (successCount > 0) {
+                                showWhatsAppStatus('success', `${successCount} notifikasi berhasil dikirim`);
+                            }
+                        }, 500);
+                    }
+                }, index * 1000); // Delay 1 second between messages
+            });
+            
+            addWhatsAppLog('info', `Memulai pengiriman ${siswaAbsen.length} notifikasi WhatsApp`);
+        }
+
+        // Responsive handling
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            // Always hide sidebar and overlay on resize
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a7567e1792e77a',t:'MTc1NzA5MjIwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
