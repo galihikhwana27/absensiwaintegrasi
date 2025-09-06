@@ -1113,41 +1113,100 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
 
                         <!-- Pengaturan Tab -->
                         <div id="admin-tab-pengaturan" class="admin-tab-content hidden">
-                            <h3 class="font-bold text-lg mb-4">Pengaturan Sekolah</h3>
-                            <div class="space-y-6">
-                                <div>
-                                    <label class="block font-semibold mb-2">Logo Sekolah</label>
-                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
-                                        <p class="text-gray-600">Klik untuk upload logo sekolah</p>
-                                        <input type="file" accept="image/*" class="hidden">
+                            <h3 class="font-bold text-lg mb-6">Pengaturan Sistem</h3>
+                            
+                            <!-- Data Management Section -->
+                            <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                                <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+                                    <i class="fas fa-database mr-2"></i>
+                                    Manajemen Data
+                                </h4>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                    <div class="bg-white rounded-lg p-4 text-center border">
+                                        <i class="fas fa-download text-blue-500 text-2xl mb-2"></i>
+                                        <h5 class="font-semibold text-gray-700 mb-2">Export Data</h5>
+                                        <p class="text-sm text-gray-600 mb-3">Backup semua data ke file JSON</p>
+                                        <button onclick="exportData()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                                            <i class="fas fa-download mr-1"></i>Export
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 text-center border">
+                                        <i class="fas fa-upload text-green-500 text-2xl mb-2"></i>
+                                        <h5 class="font-semibold text-gray-700 mb-2">Import Data</h5>
+                                        <p class="text-sm text-gray-600 mb-3">Restore data dari file backup</p>
+                                        <button onclick="importData()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm">
+                                            <i class="fas fa-upload mr-1"></i>Import
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="bg-white rounded-lg p-4 text-center border">
+                                        <i class="fas fa-trash-alt text-red-500 text-2xl mb-2"></i>
+                                        <h5 class="font-semibold text-gray-700 mb-2">Hapus Semua Data</h5>
+                                        <p class="text-sm text-gray-600 mb-3">Reset sistem ke kondisi awal</p>
+                                        <button onclick="clearAllData()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm">
+                                            <i class="fas fa-trash-alt mr-1"></i>Reset
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block font-semibold mb-2">Nama Sekolah</label>
-                                        <input type="text" value="SMP Negeri 3 Lempuing Jaya" class="w-full p-3 border border-gray-300 rounded-lg">
-                                    </div>
-                                    <div>
-                                        <label class="block font-semibold mb-2">NPSN</label>
-                                        <input type="text" value="10123456" class="w-full p-3 border border-gray-300 rounded-lg">
-                                    </div>
-                                    <div>
-                                        <label class="block font-semibold mb-2">Alamat</label>
-                                        <input type="text" value="Jl. Pendidikan No. 123, Lempuing Jaya" class="w-full p-3 border border-gray-300 rounded-lg">
-                                    </div>
-                                    <div>
-                                        <label class="block font-semibold mb-2">Telepon</label>
-                                        <input type="tel" value="(0711) 123-4567" class="w-full p-3 border border-gray-300 rounded-lg">
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label class="block font-semibold mb-2">Nama Kepala Sekolah</label>
-                                        <input type="text" value="Drs. H. Ahmad Suryadi, M.Pd" class="w-full p-3 border border-gray-300 rounded-lg">
-                                    </div>
+                                
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                    <h5 class="font-semibold text-blue-800 mb-2 flex items-center">
+                                        <i class="fas fa-info-circle mr-2"></i>
+                                        Informasi Penyimpanan Data
+                                    </h5>
+                                    <ul class="text-sm text-blue-700 space-y-1">
+                                        <li>• Data disimpan otomatis di browser (localStorage)</li>
+                                        <li>• Data akan tetap ada meskipun browser ditutup</li>
+                                        <li>• Lakukan export secara berkala untuk backup</li>
+                                        <li>• Data akan hilang jika cache browser dibersihkan</li>
+                                    </ul>
                                 </div>
-                                <button class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">
-                                    <i class="fas fa-save mr-2"></i>Simpan Pengaturan
-                                </button>
+                            </div>
+                            
+                            <!-- School Settings Section -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+                                    <i class="fas fa-school mr-2"></i>
+                                    Pengaturan Sekolah
+                                </h4>
+                                
+                                <div class="space-y-6">
+                                    <div>
+                                        <label class="block font-semibold mb-2">Logo Sekolah</label>
+                                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                            <p class="text-gray-600">Klik untuk upload logo sekolah</p>
+                                            <input type="file" accept="image/*" class="hidden">
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block font-semibold mb-2">Nama Sekolah</label>
+                                            <input type="text" value="SMP Negeri 3 Lempuing Jaya" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                        <div>
+                                            <label class="block font-semibold mb-2">NPSN</label>
+                                            <input type="text" value="10123456" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                        <div>
+                                            <label class="block font-semibold mb-2">Alamat</label>
+                                            <input type="text" value="Jl. Pendidikan No. 123, Lempuing Jaya" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                        <div>
+                                            <label class="block font-semibold mb-2">Telepon</label>
+                                            <input type="tel" value="(0711) 123-4567" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block font-semibold mb-2">Nama Kepala Sekolah</label>
+                                            <input type="text" value="Drs. H. Ahmad Suryadi, M.Pd" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                    </div>
+                                    <button class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">
+                                        <i class="fas fa-save mr-2"></i>Simpan Pengaturan
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1170,6 +1229,9 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             setInterval(updateTime, 1000);
             setCurrentTimestamp();
             setCurrentMonthYear();
+            
+            // Load saved data from localStorage
+            loadAllDataFromStorage();
             
             // Initialize all dropdowns with current data
             updateAllDropdowns();
@@ -2158,7 +2220,7 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             kirimNotifikasiOtomatis(siswaAbsen, kelas);
         }
 
-        // Data Management
+        // Data Management with localStorage persistence
         let dataGuru = [];
 
         // Teacher attendance tracking
@@ -2169,6 +2231,218 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
         let dataSiswa = [];
 
         let dataKelas = [];
+
+        // Data persistence functions
+        function saveDataToStorage() {
+            try {
+                localStorage.setItem('smpn3_dataGuru', JSON.stringify(dataGuru));
+                localStorage.setItem('smpn3_dataSiswa', JSON.stringify(dataSiswa));
+                localStorage.setItem('smpn3_dataKelas', JSON.stringify(dataKelas));
+                localStorage.setItem('smpn3_absensiGuru', JSON.stringify(absensiGuru));
+                localStorage.setItem('smpn3_absensiSiswa', JSON.stringify(absensiSiswa));
+                localStorage.setItem('smpn3_whatsappConfig', JSON.stringify(whatsappConfig));
+            } catch (error) {
+                console.error('Error saving data to localStorage:', error);
+                showNotification('warning', 'Penyimpanan Data', 'Data tidak dapat disimpan secara otomatis');
+            }
+        }
+
+        function loadAllDataFromStorage() {
+            try {
+                // Load data guru
+                const savedDataGuru = localStorage.getItem('smpn3_dataGuru');
+                if (savedDataGuru) {
+                    dataGuru = JSON.parse(savedDataGuru);
+                    updateTabelGuru();
+                }
+
+                // Load data siswa
+                const savedDataSiswa = localStorage.getItem('smpn3_dataSiswa');
+                if (savedDataSiswa) {
+                    dataSiswa = JSON.parse(savedDataSiswa);
+                    updateTabelSiswa();
+                }
+
+                // Load data kelas
+                const savedDataKelas = localStorage.getItem('smpn3_dataKelas');
+                if (savedDataKelas) {
+                    dataKelas = JSON.parse(savedDataKelas);
+                    updateTabelKelas();
+                }
+
+                // Load absensi guru
+                const savedAbsensiGuru = localStorage.getItem('smpn3_absensiGuru');
+                if (savedAbsensiGuru) {
+                    absensiGuru = JSON.parse(savedAbsensiGuru);
+                }
+
+                // Load absensi siswa
+                const savedAbsensiSiswa = localStorage.getItem('smpn3_absensiSiswa');
+                if (savedAbsensiSiswa) {
+                    absensiSiswa = JSON.parse(savedAbsensiSiswa);
+                }
+
+                // Load WhatsApp config
+                const savedWhatsAppConfig = localStorage.getItem('smpn3_whatsappConfig');
+                if (savedWhatsAppConfig) {
+                    const config = JSON.parse(savedWhatsAppConfig);
+                    whatsappConfig = { ...whatsappConfig, ...config };
+                    
+                    // Restore form values
+                    if (config.provider) document.getElementById('wa-provider').value = config.provider;
+                    if (config.endpoint) document.getElementById('wa-endpoint').value = config.endpoint;
+                    if (config.token) document.getElementById('wa-token').value = config.token;
+                    if (config.instance) document.getElementById('wa-instance').value = config.instance;
+                    if (config.template) document.getElementById('wa-template').value = config.template;
+                }
+
+                // Show data loaded notification if any data exists
+                const hasData = dataGuru.length > 0 || dataSiswa.length > 0 || dataKelas.length > 0 || 
+                               absensiGuru.length > 0 || absensiSiswa.length > 0;
+                
+                if (hasData) {
+                    showNotification('success', 'Data Berhasil Dimuat', 
+                        `Data tersimpan berhasil dimuat:\n• ${dataGuru.length} guru\n• ${dataSiswa.length} siswa\n• ${dataKelas.length} kelas\n• ${absensiGuru.length} absensi guru\n• ${absensiSiswa.length} absensi siswa`);
+                }
+
+            } catch (error) {
+                console.error('Error loading data from localStorage:', error);
+                showNotification('error', 'Error Memuat Data', 'Terjadi kesalahan saat memuat data tersimpan');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ PERINGATAN!\n\nApakah Anda yakin ingin menghapus SEMUA data?\n\nData yang akan dihapus:\n• Semua data guru\n• Semua data siswa\n• Semua data kelas\n• Semua riwayat absensi\n• Konfigurasi WhatsApp\n\nTindakan ini TIDAK DAPAT DIBATALKAN!')) {
+                
+                if (confirm('Konfirmasi sekali lagi:\n\nSemua data akan hilang permanen!\nYakin ingin melanjutkan?')) {
+                    try {
+                        // Clear all arrays
+                        dataGuru = [];
+                        dataSiswa = [];
+                        dataKelas = [];
+                        absensiGuru = [];
+                        absensiSiswa = [];
+                        whatsappConfig = {
+                            provider: '',
+                            endpoint: '',
+                            token: '',
+                            instance: '',
+                            template: '🏫 *SMP Negeri 3 Lempuing Jaya*\n\nAssalamu\'alaikum {nama_ortu},\n\nHari {tanggal} ananda *{nama_siswa}*, {kelas}, telah melakukan absensi dengan status *{status_absensi}*.\n\nGuru Piket: {guru_piket}\n\nTerima kasih atas perhatiannya.\n\n_Salam hormat,_\n_Tim Absensi SMP Negeri 3 Lempuing Jaya_'
+                        };
+
+                        // Clear localStorage
+                        localStorage.removeItem('smpn3_dataGuru');
+                        localStorage.removeItem('smpn3_dataSiswa');
+                        localStorage.removeItem('smpn3_dataKelas');
+                        localStorage.removeItem('smpn3_absensiGuru');
+                        localStorage.removeItem('smpn3_absensiSiswa');
+                        localStorage.removeItem('smpn3_whatsappConfig');
+
+                        // Update all tables and dropdowns
+                        updateTabelGuru();
+                        updateTabelSiswa();
+                        updateTabelKelas();
+                        updateAllDropdowns();
+                        updateJumlahSiswaPerKelas();
+
+                        // Reset WhatsApp form
+                        document.getElementById('form-whatsapp-config').reset();
+                        document.getElementById('wa-status').classList.add('hidden');
+
+                        showNotification('success', 'Data Berhasil Dihapus', 'Semua data telah dihapus dari sistem');
+                        
+                    } catch (error) {
+                        console.error('Error clearing data:', error);
+                        showNotification('error', 'Error Menghapus Data', 'Terjadi kesalahan saat menghapus data');
+                    }
+                }
+            }
+        }
+
+        function exportData() {
+            try {
+                const exportData = {
+                    dataGuru: dataGuru,
+                    dataSiswa: dataSiswa,
+                    dataKelas: dataKelas,
+                    absensiGuru: absensiGuru,
+                    absensiSiswa: absensiSiswa,
+                    whatsappConfig: { ...whatsappConfig, token: '' }, // Don't export sensitive token
+                    exportDate: new Date().toISOString(),
+                    schoolName: 'SMP Negeri 3 Lempuing Jaya'
+                };
+
+                const dataStr = JSON.stringify(exportData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `backup_absensi_smpn3_${new Date().toISOString().slice(0, 10)}.json`;
+                link.click();
+                
+                showNotification('success', 'Export Berhasil', 'Data berhasil diexport ke file JSON');
+                
+            } catch (error) {
+                console.error('Error exporting data:', error);
+                showNotification('error', 'Export Gagal', 'Terjadi kesalahan saat export data');
+            }
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        
+                        // Validate data structure
+                        if (!importedData.dataGuru || !importedData.dataSiswa || !importedData.dataKelas) {
+                            throw new Error('Format file tidak valid');
+                        }
+                        
+                        if (confirm('Import data akan mengganti semua data yang ada.\nYakin ingin melanjutkan?')) {
+                            // Import data
+                            dataGuru = importedData.dataGuru || [];
+                            dataSiswa = importedData.dataSiswa || [];
+                            dataKelas = importedData.dataKelas || [];
+                            absensiGuru = importedData.absensiGuru || [];
+                            absensiSiswa = importedData.absensiSiswa || [];
+                            
+                            if (importedData.whatsappConfig) {
+                                whatsappConfig = { ...whatsappConfig, ...importedData.whatsappConfig };
+                            }
+                            
+                            // Save to localStorage
+                            saveDataToStorage();
+                            
+                            // Update UI
+                            updateTabelGuru();
+                            updateTabelSiswa();
+                            updateTabelKelas();
+                            updateAllDropdowns();
+                            updateJumlahSiswaPerKelas();
+                            
+                            showNotification('success', 'Import Berhasil', 
+                                `Data berhasil diimport:\n• ${dataGuru.length} guru\n• ${dataSiswa.length} siswa\n• ${dataKelas.length} kelas`);
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error importing data:', error);
+                        showNotification('error', 'Import Gagal', 'File tidak valid atau terjadi kesalahan: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
 
         // Form toggle functions
         function toggleFormGuru() {
@@ -2213,11 +2487,13 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
         }
 
         function hapusGuru(index) {
-            if (confirm('Yakin ingin menghapus data guru ini?')) {
+            const namaGuru = dataGuru[index].nama;
+            if (confirm(`Yakin ingin menghapus data guru ${namaGuru}?`)) {
                 dataGuru.splice(index, 1);
                 updateTabelGuru();
                 updateAllDropdowns();
-                alert('Data guru berhasil dihapus!');
+                saveDataToStorage(); // Save to localStorage
+                showNotification('success', 'Data Guru Berhasil Dihapus!', `${namaGuru} telah dihapus dari sistem`);
             }
         }
 
@@ -2233,11 +2509,14 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
         }
 
         function hapusSiswa(index) {
-            if (confirm('Yakin ingin menghapus data siswa ini?')) {
+            const namaSiswa = dataSiswa[index].nama;
+            const kelasSiswa = dataSiswa[index].kelas;
+            if (confirm(`Yakin ingin menghapus data siswa ${namaSiswa} dari kelas ${kelasSiswa}?`)) {
                 dataSiswa.splice(index, 1);
                 updateTabelSiswa();
                 updateJumlahSiswaPerKelas();
-                alert('Data siswa berhasil dihapus!');
+                saveDataToStorage(); // Save to localStorage
+                showNotification('success', 'Data Siswa Berhasil Dihapus!', `${namaSiswa} telah dihapus dari sistem`);
             }
         }
 
@@ -2263,7 +2542,8 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
                 dataKelas.splice(index, 1);
                 updateTabelKelas();
                 updateAllDropdowns();
-                alert('Kelas berhasil dihapus!');
+                saveDataToStorage(); // Save to localStorage
+                showNotification('success', 'Kelas Berhasil Dihapus!', `Kelas ${namaKelas} telah dihapus dari sistem`);
             }
         }
 
@@ -2725,6 +3005,9 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             attendanceRecord[jenis] = waktu;
             attendanceRecord.status = status;
 
+            // Save to localStorage
+            saveDataToStorage();
+
             // Success notification with detailed information
             const jenisText = jenis === 'datang' ? 'Kedatangan' : 'Kepulangan';
             const statusText = status === 'hadir' ? 'HADIR' : 'IZIN';
@@ -2822,6 +3105,10 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             }
             
             const totalSiswa = siswaElements.length;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
             showNotification('success', 'Absensi Siswa Berhasil Disimpan!', 
                 `Kelas ${kelas} - ${totalSiswa} siswa\n✅ ${statusCount.hadir} Hadir | 🤒 ${statusCount.sakit} Sakit | 🖐️ ${statusCount.izin} Izin | ❌ ${statusCount.alpha} Alpha`);
             
@@ -2864,8 +3151,9 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             dataGuru.push(guru);
             updateTabelGuru();
             updateAllDropdowns();
+            saveDataToStorage(); // Save to localStorage
             cancelFormGuru();
-            alert('Data guru berhasil ditambahkan!');
+            showNotification('success', 'Data Guru Berhasil Ditambahkan!', `${guru.nama} - ${guru.mapel} telah ditambahkan ke sistem`);
         });
 
         document.getElementById('form-input-siswa').addEventListener('submit', function(e) {
@@ -2880,8 +3168,9 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             dataSiswa.push(siswa);
             updateTabelSiswa();
             updateJumlahSiswaPerKelas();
+            saveDataToStorage(); // Save to localStorage
             cancelFormSiswa();
-            alert('Data siswa berhasil ditambahkan!');
+            showNotification('success', 'Data Siswa Berhasil Ditambahkan!', `${siswa.nama} - ${siswa.kelas} telah ditambahkan ke sistem`);
         });
 
         document.getElementById('form-input-kelas').addEventListener('submit', function(e) {
@@ -2895,8 +3184,9 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             updateTabelKelas();
             updateAllDropdowns();
             updateJumlahSiswaPerKelas();
+            saveDataToStorage(); // Save to localStorage
             cancelFormKelas();
-            alert('Kelas berhasil ditambahkan!');
+            showNotification('success', 'Kelas Berhasil Ditambahkan!', `Kelas ${kelas.nama} dengan wali kelas ${kelas.waliKelas} telah ditambahkan`);
         });
 
         // WhatsApp API Functions
@@ -3224,7 +3514,10 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             showWhatsAppStatus('success', 'Konfigurasi WhatsApp berhasil disimpan');
             addWhatsAppLog('success', `Konfigurasi ${provider} berhasil disimpan`);
             
-            alert('Konfigurasi WhatsApp berhasil disimpan!');
+            // Save to localStorage
+            saveDataToStorage();
+            
+            showNotification('success', 'Konfigurasi WhatsApp Berhasil Disimpan!', `Provider ${provider} telah dikonfigurasi dan siap digunakan`);
         });
 
         // Enhanced WhatsApp notification function
@@ -3294,5 +3587,5 @@ _Tim Absensi SMP Negeri 3 Lempuing Jaya_" class="w-full p-3 border border-gray-3
             overlay.classList.add('hidden');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a79b7fa0af3ef7',t:'MTc1NzA5NTAzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97aa090d30a0fceb',t:'MTc1NzEyMDQ4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
